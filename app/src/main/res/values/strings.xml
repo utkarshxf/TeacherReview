@@ -52,4 +52,5 @@
     <string name="mints">Mints</string>
     <string name="menu">Menu</string>
     <string name="app_name">Book Review</string>
+    <string name="liked_by">Liked By</string>
 </resources>

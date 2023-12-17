@@ -18,6 +18,7 @@ import com.orion.templete.presentation.login.LoginScreen
 import com.orion.templete.presentation.main.MainScreen
 import com.orion.templete.presentation.main.screens.profile.ProfileScreen
 import com.orion.templete.presentation.main.screens.setting.SettingScreen
+import com.orion.templete.presentation.main.screens.thought.mints.MintsScreen
 import com.orion.templete.presentation.splash.SplashScreen
 import com.orion.templete.presentation.ui.theme.TempleteTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -50,6 +51,10 @@ class MainActivity : ComponentActivity() {
                         composable(route = Screen.Profile.route) {
                             ProfileScreen()
                         }
+                        composable(route = Screen.Reviews.route)
+                        {
+                            MintsScreen()
+                        }
                         composable(route = Screen.Settings.route) {
                             SettingScreen()
                         }
@@ -58,7 +63,11 @@ class MainActivity : ComponentActivity() {
                                 navController.previousBackStackEntry
                                     ?.savedStateHandle
                                     ?.get<BlogDTOItem>("data-mapped")
-                            SelectedBlogScreen(navigateToBlogs = { navController.popBackStack()},addScreenData)
+                            SelectedBlogScreen(navigateToBlogs = { navController.popBackStack()},addScreenData) {
+                                navController.navigate(
+                                    Screen.Reviews.route
+                                )
+                            }
                         }
                     }
                 }

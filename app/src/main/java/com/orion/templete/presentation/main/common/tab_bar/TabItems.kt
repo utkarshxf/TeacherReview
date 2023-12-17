@@ -24,9 +24,9 @@ sealed class TabItem(val title: String, val screens: ComposableFun) {
     ), screens = { SubscriptionScreen(scrollBehavior)})
 
 
-    data class Mints(val scrollBehavior: TopAppBarScrollBehavior,val context:Context,) : TabItem(title = context.getString(
+    data class Mints(val context:Context) : TabItem(title = context.getString(
         R.string.mints
-    ), screens = { MintsScreen(scrollBehavior) })
+    ), screens = { MintsScreen() })
 
 
     data class Blog(

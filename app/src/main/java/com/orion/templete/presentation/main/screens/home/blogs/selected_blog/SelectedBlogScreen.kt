@@ -1,6 +1,5 @@
 import android.annotation.SuppressLint
 import androidx.annotation.DrawableRes
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -51,6 +50,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.font.FontWeight.Companion.Bold
 import androidx.compose.ui.tooling.preview.Preview
@@ -62,21 +62,16 @@ import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.orion.templete.Data.Model.BlogDTOItem
 import com.orion.templete.R
-import com.orion.templete.presentation.main.screens.home.main.CircularIndicator
-import com.orion.templete.presentation.main.screens.home.main.Greeting
-import com.orion.templete.presentation.main.screens.home.main.LineChartScreen
 import com.orion.templete.presentation.main.screens.home.main.MainScreenModel
-import com.orion.templete.presentation.main.screens.home.main.RoundedLinearProgressIndicator
-import com.orion.templete.presentation.main.screens.home.main.TodaysTask
 import com.orion.templete.presentation.ui.theme.TempleteTheme
 import kotlin.math.max
 import kotlin.math.min
 
 @Composable
-fun SelectedBlogScreen(navigateToBlogs: () -> Unit = {}, addScreenData: BlogDTOItem?) {
+fun SelectedBlogScreen(navigateToBlogs: () -> Unit = {}, addScreenData: BlogDTOItem?, goToReviewScreen: () -> Unit) {
     var scrollState = rememberLazyListState()
     Surface() {
-        ContentText(scrollState = scrollState)
+        ContentText(scrollState = scrollState ,goToReviewScreen )
         ParallaxToolbar(scrollState = scrollState , navigateToBlogs = navigateToBlogs,addScreenData)
     }
 
@@ -85,7 +80,11 @@ fun SelectedBlogScreen(navigateToBlogs: () -> Unit = {}, addScreenData: BlogDTOI
 @OptIn(ExperimentalGlideComposeApi::class)
 @SuppressLint("SuspiciousIndentation")
 @Composable
-fun ParallaxToolbar(scrollState: LazyListState, navigateToBlogs: () -> Unit, addScreenData: BlogDTOItem?) {
+fun ParallaxToolbar(
+    scrollState: LazyListState,
+    navigateToBlogs: () -> Unit,
+    addScreenData: BlogDTOItem?,
+) {
     val AppBarCollapsedHeight = 56.dp
     val AppBarExpendedHeight = 400.dp
     val imageHight = AppBarExpendedHeight - AppBarCollapsedHeight
@@ -189,7 +188,7 @@ fun CircularButton(
 
 
 @Composable
-fun BookInformation(userViewModel: MainScreenModel = hiltViewModel())
+fun BookInformation(goToReviewScreen: () -> Unit , userViewModel: MainScreenModel = hiltViewModel())
 {
     val res = userViewModel.User.value
 
@@ -207,21 +206,36 @@ fun BookInformation(userViewModel: MainScreenModel = hiltViewModel())
 
     res.data?.let {data->
         Spacer(modifier = Modifier.size(18.dp))
-        Greeting(data.firstName+" "+data.lastName)
-        Spacer(modifier = Modifier.size(18.dp))
-        CircularIndicator(data.activeDays)
+        AiIndicator(data.activeDays)
         Text(text = "Reviews", fontWeight = Bold)
         Spacer(modifier = Modifier.size(18.dp))
-        Reviews()
+        Reviews(goToReviewScreen)
         Spacer(modifier = Modifier.size(18.dp))
         Text(text = "Write your Review", fontWeight = FontWeight.Bold)
         Spacer(modifier = Modifier.size(18.dp))
         ReviewColoum()
     }
 }
+@Composable
+fun AiIndicator(activeDays: Int) {
+    Text(text = stringResource(R.string.activity), fontWeight = FontWeight.Bold)
+    Row(
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        CustomComponent(
+            smallText = stringResource(R.string.completed),
+            indicatorValue = activeDays,
+            maxIndicatorValue = 30,
+            bigTextSuffix = stringResource(R.string.days)
+        )
+        CustomComponent(smallText = stringResource(R.string.liked_by), indicatorValue = 85)
+    }
+}
 
 @Composable
-fun Reviews() {
+fun Reviews(goToReviewScreen: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -232,7 +246,7 @@ fun Reviews() {
 
             Text("recipe.reviews", color = DarkGray)
         }
-        Button(onClick = {}, elevation = null, colors = ButtonDefaults.buttonColors(
+        Button(onClick = { goToReviewScreen() }, elevation = null, colors = ButtonDefaults.buttonColors(
             containerColor = Transparent,
         )) {
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -281,7 +295,7 @@ fun TextBox() {
 }
 
 @Composable
-fun ContentText(scrollState: LazyListState) {
+fun ContentText(scrollState: LazyListState, goToReviewScreen: () -> Unit) {
     val AppBarExpendedHeight = 400.dp
     LazyColumn(
         contentPadding = PaddingValues(top = AppBarExpendedHeight),
@@ -293,7 +307,7 @@ fun ContentText(scrollState: LazyListState) {
                 Text(text = "Lorem ipsum dolor sit amet consectetur. Volutpat nascetur turpis eget arcu. Vel volutpat porta cursus quis dignissim cursus commodo. Turpis congue mauris sed ut. Quis arcu fermentum duis a blandit eget lorem. Egestas metus turpis scelerisque eu. Ipsum eu morbi morbi lacus felis. Elementum suspendisse in massa tempor donec ultrices ultricies. Massa vitae sit est est tristique faucibus posuere quis. Ac sed ullamcorper urna ut.\n" +
                         "Eu nullam ornare donec leo dui augue dui. Viverra duis egestas eu pulvinar pharetra. Sed volutpat gravida vestibulum purus quis sed proin pulvinar. Quis ornare in auctor viverra sed elementum tellus diam. Est adipiscing magna tempor lacinia vitae. In viverra hendrerit suspendisse malesuada eu nec vitae amet. Neque tincidunt id rutrum aliquet volutpat donec placerat.\n")
                 Spacer(modifier = Modifier.size(18.dp))
-                BookInformation()
+                BookInformation(goToReviewScreen)
             }
 
         }

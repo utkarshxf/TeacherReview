@@ -37,7 +37,7 @@ import com.orion.templete.presentation.ui.theme.TempleteTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MintsScreen(scrollBehavior: TopAppBarScrollBehavior,mintsViewModel: MintsScreenViewModel = hiltViewModel())
+fun MintsScreen(mintsViewModel: MintsScreenViewModel = hiltViewModel())
 {
     val res = mintsViewModel.Mints.value
 
@@ -54,18 +54,18 @@ fun MintsScreen(scrollBehavior: TopAppBarScrollBehavior,mintsViewModel: MintsScr
     }
 
     res.data?.let {
-        RenderMintsScreen(scrollBehavior , res.data)
+        RenderMintsScreen( res.data)
     }
 }
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RenderMintsScreen(scrollBehavior: TopAppBarScrollBehavior, data: Any)
+fun RenderMintsScreen(data: Any)
 {
     val modifier = Modifier
         .fillMaxSize()
         .padding(horizontal = 12.dp)
         .height(12.dp)
-    LazyColumn(modifier.nestedScroll(scrollBehavior.nestedScrollConnection)) {
+    LazyColumn(modifier) {
         item() {
             Text("you can write your own quotes here", textAlign = TextAlign.Center)
         }
@@ -89,28 +89,6 @@ fun MintsCard(Name: String, Gmail: String, ProfileImage: Int, Views: Int) {
             text = "Lorem ipsum dolor sit amet consectetur. Semper eros volutpat pretium semper urna cras est. Purus et diam elementum ut. Purus viverra non nec amet volutpat penatibus dui.",
             modifier = modifier
         )
-        Spacer(modifier = modifier.height(12.dp))
-        Row(
-            modifier,
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.icon_dot), contentDescription = null, tint = MaterialTheme.colorScheme.primary
-                )
-                Spacer(modifier = Modifier.width(12.dp))
-                Text(text = Views.toString(), color = MaterialTheme.colorScheme.primary)
-            }
-            Icon(
-                painter = painterResource(id = R.drawable.icon_like),
-                contentDescription = null,
-                Modifier.size(28.dp),
-                tint = MaterialTheme.colorScheme.outline
-            )
-        }
         Spacer(modifier = modifier.height(12.dp))
 
     }

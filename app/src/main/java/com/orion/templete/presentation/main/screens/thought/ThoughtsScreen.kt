@@ -24,7 +24,7 @@ fun ThoughtsScreen(scrollBehavior: TopAppBarScrollBehavior, navigateToSelectedBl
             .fillMaxSize()
     ) {
         val context = LocalContext.current
-        val list = listOf(TabItem.Mints(scrollBehavior,context), TabItem.Blog(scrollBehavior , navigateToSelectedBlog,context))
+        val list = listOf(TabItem.Mints(context), TabItem.Blog(scrollBehavior , navigateToSelectedBlog,context))
         val pagerState = rememberPagerState(initialPage = 1)
         Tabbar(pagerState, list)
     }

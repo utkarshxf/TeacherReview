@@ -92,10 +92,6 @@ fun  BlogCard(
             .clickable { navigateToSelectedBlog(blogCardData) },
     ) {
         Spacer(modifier = Modifier.height(12.dp))
-        PersonDetails(Modifier.padding(horizontal = 12.dp) ,blogCardData.name, blogCardData.username, R.drawable.avatar)
-
-        Spacer(modifier = Modifier.height(12.dp))
-
         Box(
             modifier = Modifier
                 .padding(horizontal = 12.dp)

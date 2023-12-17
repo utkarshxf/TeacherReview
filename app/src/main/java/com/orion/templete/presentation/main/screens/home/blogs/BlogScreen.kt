@@ -1,17 +1,25 @@
 package com.orion.templete.presentation.main.screens.home.blogs
 
 
+import android.content.res.Resources.Theme
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -29,8 +37,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
@@ -38,6 +49,7 @@ import com.bumptech.glide.integration.compose.GlideImage
 import com.orion.templete.Data.Model.BlogDTO
 import com.orion.templete.Data.Model.BlogDTOItem
 import com.orion.templete.R
+import com.orion.templete.presentation.main.screens.home.mySearchBar
 import com.orion.templete.presentation.main.screens.thought.common.PersonDetails
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -70,11 +82,14 @@ fun BlogScreen(
 @Composable
 fun RenderBlogScreen(scrollBehavior: TopAppBarScrollBehavior, data: BlogDTO , navigateToSelectedBlog: (BlogDTOItem) -> Unit = {})
 {
-        LazyColumn(Modifier
+        Column(Modifier
             .nestedScroll(scrollBehavior.nestedScrollConnection)) {
-            items(data) { blogCardData ->
-                BlogCard( blogCardData, navigateToSelectedBlog)
-            }
+            mySearchBar()
+            LazyColumn() {
+                items(data) { blogCardData ->
+                    BlogCard( blogCardData, navigateToSelectedBlog)
+                }
+        }
     }
 }
 
@@ -84,19 +99,21 @@ fun  BlogCard(
     blogCardData: BlogDTOItem,
     navigateToSelectedBlog: (BlogDTOItem) -> Unit,
 ) {
-    Card(
+    Row(
         modifier = Modifier
-            .padding(vertical = 6.dp)
-            .padding(horizontal = 12.dp)
+            .height(250.dp)
+            .padding(horizontal = 6.dp)
+            .padding(vertical = 12.dp)
+            .border(BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(0.2f)), shape = RoundedCornerShape(12.dp))
             .clip(RoundedCornerShape(12.dp))
             .clickable { navigateToSelectedBlog(blogCardData) },
     ) {
-        Spacer(modifier = Modifier.height(12.dp))
         Box(
             modifier = Modifier
-                .padding(horizontal = 12.dp)
+                .padding(vertical = 12.dp)
                 .clip(RoundedCornerShape(6.dp))
                 .height(200.dp)
+                .width(150.dp)
         ) {
             // Use Coil/Glide library for efficient image loading
             GlideImage(
@@ -106,50 +123,65 @@ fun  BlogCard(
                 modifier = Modifier.fillMaxSize()
             )
         }
+        Column(verticalArrangement = Arrangement.SpaceBetween , horizontalAlignment = Alignment.Start, modifier = Modifier.fillMaxHeight()) {
+            Column(Modifier)
+            {
+                Spacer(modifier = Modifier.height(12.dp))
 
-        Spacer(modifier = Modifier.height(12.dp))
+                Text(
+                    text = blogCardData.title,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(horizontal = 12.dp),
+//                     MaterialTheme.typography.labelMedium
+                )
+                Text(
+                    text = "alok randi",
+                    modifier = Modifier.padding(horizontal = 12.dp), fontStyle = FontStyle.Italic
+                )
+                Rating(2)
+            }
 
-        Text(
-            text = blogCardData.title,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(horizontal = 12.dp)
-        )
 
-        Text(
-            text = "Lorem ipsum dolor sit amet consectetur. Semper eros volutpat pretium semper urna cras est. Purus et diam elementum ut. Purus viverra non nec amet volutpat penatibus dui.",
-            modifier = Modifier.padding(horizontal = 12.dp)
-        )
-
-        Spacer(modifier = Modifier.height(12.dp))
-
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 12.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
             Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(12.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.icon_dot),
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.primary
+                    )
+                    Spacer(modifier = Modifier.width(12.dp))
+                    Text(
+                        text = "RS "+blogCardData.views.toString(),
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                }
                 Icon(
-                    painter = painterResource(id = R.drawable.icon_dot),
+                    painter = painterResource(id = R.drawable.icon_like),
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.primary
-                )
-                Spacer(modifier = Modifier.width(12.dp))
-                Text(
-                    text = blogCardData.views.toString(),
-                    color = MaterialTheme.colorScheme.primary
+                    tint = MaterialTheme.colorScheme.outline,
+                    modifier = Modifier.size(28.dp)
                 )
             }
-            Icon(
-                painter = painterResource(id = R.drawable.icon_like),
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.outline,
-                modifier = Modifier.size(28.dp)
-            )
+
         }
-        Spacer(modifier = Modifier.height(12.dp))
+    }
+}
+
+@Composable
+fun Rating(value:Int) {
+    Row(horizontalArrangement = Arrangement.SpaceBetween ,
+        verticalAlignment = Alignment.CenterVertically , modifier = Modifier.padding(12.dp))
+    {
+        for (i in 1..value) {
+            Icon(painter = painterResource(id = R.drawable.ic_star), contentDescription = null , tint = MaterialTheme.colorScheme.primary , modifier = Modifier.size(28.dp))
+        }
     }
 }

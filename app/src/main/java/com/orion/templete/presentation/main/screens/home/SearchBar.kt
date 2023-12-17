@@ -2,8 +2,14 @@ package com.orion.templete.presentation.main.screens.home
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
@@ -25,7 +31,7 @@ import com.orion.templete.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SearchBar() {
+fun mySearchBar() {
     var text by remember {
         mutableStateOf("")
     }
@@ -36,7 +42,9 @@ fun SearchBar() {
         mutableStateListOf("")
     }
 
-    SearchBar(modifier = Modifier.fillMaxWidth(), query = text, onQueryChange = {
+    SearchBar(modifier = Modifier
+        .padding(vertical = 6.dp)
+        .padding(horizontal = 12.dp), query = text, onQueryChange = {
         text = it
     }, onSearch = {
         items.add(text)
@@ -58,7 +66,7 @@ fun SearchBar() {
                     }
                 })
         }
-    }) {
+    }, shape = RoundedCornerShape(12.dp)) {
         items.forEach {
             Row(modifier = Modifier.padding(all = 14.dp)) {
                 if (it.isNotEmpty()) {

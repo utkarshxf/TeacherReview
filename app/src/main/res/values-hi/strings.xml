@@ -46,6 +46,7 @@
     <string name="good_afternoon">शुभ अपराह्न</string>
     <string name="reexamine">पुनः जांच करें</string>
     <string name="enjoy_a_free_workflow_everyday">प्रतिदिन मुक्त वर्कफ़्लो का आनंद लें</string>
+    <!-- Hindi (hi) Translation -->
     <string name="search_icon">खोज आइकन</string>
     <string name="blogs">ब्लॉग्स</string>
     <string name="main">मुख्य</string>
@@ -53,4 +54,7 @@
     <string name="subscribe">सब्सक्राइब करें</string>
     <string name="mints">मिंट्स</string>
     <string name="menu">मेनू</string>
+    <string name="liked_by">को पसंद किया गया है</string>
+    <string name="odia">ओड़िया</string>
+    <string name="sanskrit">संस्कृत</string>
 </resources>

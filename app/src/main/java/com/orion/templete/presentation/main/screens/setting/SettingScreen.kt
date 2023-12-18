@@ -38,6 +38,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -66,9 +67,7 @@ fun SettinItems(modifier: Modifier, paddingValues: PaddingValues) {
     val isLanguageExtended = remember { mutableStateOf(false) }
     val languageOptions = listOf(
         stringResource(R.string.english), stringResource(R.string.hindi),
-        stringResource(
-            R.string.german
-        )
+        stringResource(R.string.german), stringResource(R.string.odia), stringResource(R.string.sanskrit)
     )
     val selectedLanguageOption = remember { mutableStateOf(languageOptions[0]) }
     Column(
@@ -146,7 +145,8 @@ fun LanguageChangeTab(
     expended: MutableState<Boolean>,
     Name: String,
     languageOptions: List<String>,
-    selectedLanguageOption: MutableState<String>
+    selectedLanguageOption: MutableState<String>,
+    settingViewModel: SettingViewModel = hiltViewModel()
 ) {
     val modifier = Modifier
         .fillMaxWidth()
@@ -187,6 +187,8 @@ fun LanguageChangeTab(
                             onClick = {
                                 selectedLanguageOption.value = item
                                 expended.value = false
+                                val languageCode = getLanguageCode(item)
+                                settingViewModel.changeLocales(languageCode)
                             }
                         )
                     }
@@ -195,7 +197,16 @@ fun LanguageChangeTab(
         }
     }
 }
-
+fun getLanguageCode(language: String): String {
+    return when (language) {
+        "English" -> "en"
+        "Hindi" -> "hi"
+        "Germany" -> "de"
+        "Odia" ->"or"
+        "Sanskrit"->"sa"
+        else -> "en"
+    }
+}
 @Composable
 fun DynamicColourBar(
     Name: String,
@@ -280,7 +291,8 @@ fun TougleItems(notification: MutableState<Boolean>, Name: String, Dis: String) 
             }
             Switch(
                 checked = notification.value,
-                onCheckedChange = { notification.value = it },
+                onCheckedChange = {
+                    notification.value = it },
             )
         }
     }

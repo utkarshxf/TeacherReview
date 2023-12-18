@@ -1,8 +1,10 @@
 package com.orion.templete.presentation.main.screens.home.main
 
 import CustomComponent
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,16 +16,22 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarScrollBehavior
@@ -92,9 +100,14 @@ fun RenderMain(scrollBehavior: TopAppBarScrollBehavior, data: UserDTO?)
             }
             RoundedLinearProgressIndicator(progress = 0.4f)
             Spacer(modifier = Modifier.size(18.dp))
+            Text(text = "Book Recommendation", fontWeight = FontWeight.Bold)
+            Spacer(modifier = Modifier.size(18.dp))
+            TherapistRow()
+            Spacer(modifier = Modifier.size(18.dp))
             if (data != null) {
                 LineChartScreen(data.dailyReport)
             }
+
             Spacer(modifier = Modifier.size(18.dp))
             Text(text = "Today’s Task", fontWeight = FontWeight.Bold)
             for (i in 0..2) {
@@ -241,5 +254,36 @@ fun Greeting(name: String) {
         Button(onClick = { /*TODO*/ }, shape = RoundedCornerShape(12.dp)) {
             Text(text = stringResource(R.string.reexamine))
         }
+    }
+}
+
+
+@Composable
+fun TherapistRow() {
+    LazyRow {
+        items(50) {
+            Spacer(modifier = Modifier.width(12.dp))
+            ProfileCard()
+        }
+    }
+}
+@Composable
+fun ProfileCard() {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .border(BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(0.2f)), shape = RoundedCornerShape(12.dp))
+            .background(
+                color = Color.Transparent,
+                shape = RoundedCornerShape(6.dp)
+            ).padding(6.dp),
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.img), contentDescription = null, modifier = Modifier
+                .padding(12.dp)
+                .fillMaxSize()
+            ,contentScale = ContentScale.Crop,
+        )
+        Text(text = "abed")
     }
 }

@@ -81,7 +81,7 @@ fun LoginScreen(navController: NavController) {
                         .width(1.dp)
                 )
                 Text(
-                    text = stringResource(R.string.top_therapist_of_india),
+                    text = "Top book of India",
                     textAlign = TextAlign.Center,
                     color = MaterialTheme.colorScheme.onPrimaryContainer
                 )
@@ -92,7 +92,7 @@ fun LoginScreen(navController: NavController) {
                         .width(1.dp),
                 )
                 Text(
-                    text = stringResource(R.string.happy_customers),
+                    text = "Review App",
                     textAlign = TextAlign.Center,
                     color = MaterialTheme.colorScheme.onPrimaryContainer
                 )
@@ -108,12 +108,9 @@ fun AppIcon() {
         verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
-            painter = painterResource(R.drawable.dot),
+            painter = painterResource(R.drawable.logo ),
+            modifier = Modifier.fillMaxSize(),
             contentDescription = null
-        )
-        Text(
-            text = "WellTalk",
-            color = MaterialTheme.colorScheme.onBackground, fontSize = 24.sp
         )
     }
 
@@ -194,7 +191,7 @@ fun LoginSheet(navController: NavController, showSheet: MutableState<Boolean>) {
                     modifier = Modifier.padding(end = 8.dp)
                 )
                 Spacer(modifier = Modifier.height(6.dp))
-                Text(text = stringResource(R.string.login_with_whatsapp),color = MaterialTheme.colorScheme.onPrimary)
+                Text(text = "Login With Moble",color = MaterialTheme.colorScheme.onPrimary)
             }
         }
         Box(
@@ -209,7 +206,7 @@ fun LoginSheet(navController: NavController, showSheet: MutableState<Boolean>) {
             contentAlignment = Alignment.TopCenter
         ) {
             Text(
-                text = stringResource(R.string.we_are_not_taking_any_platform_charges),
+                text = "We have best reviews for books",
                 textAlign = TextAlign.Center,
                 color = MaterialTheme.colorScheme.onSurface
             )

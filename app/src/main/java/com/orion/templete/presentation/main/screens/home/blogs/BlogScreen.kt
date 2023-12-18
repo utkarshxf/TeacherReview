@@ -164,7 +164,7 @@ fun  BlogCard(
                     )
                 }
                 Icon(
-                    painter = painterResource(id = R.drawable.icon_like),
+                    painter = painterResource(id = R.drawable.share_2),
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.outline,
                     modifier = Modifier.size(28.dp)

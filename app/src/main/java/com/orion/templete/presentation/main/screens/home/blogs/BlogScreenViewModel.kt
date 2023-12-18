@@ -14,7 +14,7 @@ import javax.inject.Inject
 @HiltViewModel
 class BlogScreenViewModel @Inject constructor(private val getBlogUseCase: GetBlogUseCase):
     ViewModel() {
-    val Blogs = mutableStateOf(BlogsStateHolder())
+    val BooksList = mutableStateOf(BlogsStateHolder())
     init {
         getBlogs()
     }
@@ -24,13 +24,13 @@ class BlogScreenViewModel @Inject constructor(private val getBlogUseCase: GetBlo
 
             when(it){
                 is Resource.Loading->{
-                    Blogs.value = BlogsStateHolder(isLoading = true)
+                    BooksList.value = BlogsStateHolder(isLoading = true)
                 }
                 is Resource.Success->{
-                    Blogs.value = BlogsStateHolder(data = it.data)
+                    BooksList.value = BlogsStateHolder(data = it.data)
                 }
                 is Resource.Error->{
-                    Blogs.value = BlogsStateHolder(error = it.message.toString())
+                    BooksList.value = BlogsStateHolder(error = it.message.toString())
                 }
 
                 else -> {}

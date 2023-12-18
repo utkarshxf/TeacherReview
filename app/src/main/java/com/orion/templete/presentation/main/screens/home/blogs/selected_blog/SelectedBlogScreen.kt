@@ -60,6 +60,8 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
+import com.orion.templete.Data.Model.BookListDTO
+import com.orion.templete.Data.Model.BooksDTO
 import com.orion.templete.R
 import com.orion.templete.presentation.main.screens.home.main.MainScreenModel
 import com.orion.templete.presentation.ui.theme.TempleteTheme
@@ -67,7 +69,7 @@ import kotlin.math.max
 import kotlin.math.min
 
 @Composable
-fun SelectedBlogScreen(navigateToBlogs: () -> Unit = {}, addScreenData: BlogDTOItem?, goToReviewScreen: () -> Unit) {
+fun SelectedBlogScreen(navigateToBlogs: () -> Unit = {}, addScreenData: BooksDTO?, goToReviewScreen: () -> Unit) {
     var scrollState = rememberLazyListState()
     Surface() {
         ContentText(scrollState = scrollState ,goToReviewScreen )
@@ -82,7 +84,7 @@ fun SelectedBlogScreen(navigateToBlogs: () -> Unit = {}, addScreenData: BlogDTOI
 fun ParallaxToolbar(
     scrollState: LazyListState,
     navigateToBlogs: () -> Unit,
-    addScreenData: BlogDTOItem?,
+    addScreenData: BooksDTO?,
 ) {
     val AppBarCollapsedHeight = 56.dp
     val AppBarExpendedHeight = 400.dp
@@ -203,7 +205,7 @@ fun BookInformation(goToReviewScreen: () -> Unit , userViewModel: MainScreenMode
         }
     }
 
-    res.data?.let {data->
+    res.data?.let { data->
         Spacer(modifier = Modifier.size(18.dp))
         AiIndicator(data.activeDays)
         Text(text = "Reviews", fontWeight = Bold)

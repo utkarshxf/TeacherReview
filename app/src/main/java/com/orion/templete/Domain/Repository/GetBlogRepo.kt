@@ -1,10 +1,9 @@
 package com.orion.templete.Domain.Repository
 
-import com.orion.templete.Data.Model.BlogDTO
-import com.orion.templete.Data.Model.exploreDTO
+import com.orion.templete.Data.Model.BooksDTO
 
 interface GetBlogRepo {
 
-    suspend fun getBlogs(): BlogDTO
+    suspend fun getBooks(): BooksDTO
 
 }

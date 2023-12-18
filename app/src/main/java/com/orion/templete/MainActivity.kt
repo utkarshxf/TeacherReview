@@ -12,7 +12,7 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.orion.templete.Data.Model.BlogDTOItem
+import com.orion.templete.Data.Model.BooksDTO
 import com.orion.templete.Domain.use_case.Screen
 import com.orion.templete.presentation.login.LoginScreen
 import com.orion.templete.presentation.main.MainScreen
@@ -63,7 +63,7 @@ class MainActivity : ComponentActivity() {
                             val addScreenData =
                                 navController.previousBackStackEntry
                                     ?.savedStateHandle
-                                    ?.get<BlogDTOItem>("data-mapped")
+                                    ?.get<BooksDTO>("data-mapped")
                             SelectedBlogScreen(navigateToBlogs = { navController.popBackStack()},addScreenData) {
                                 navController.navigate(
                                     Screen.Reviews.route

@@ -36,8 +36,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.orion.templete.Data.Model.exploreDTO
-import com.orion.templete.Data.Model.exploreDTOItem
 import com.orion.templete.R
 import com.orion.templete.presentation.ui.theme.TempleteTheme
 

@@ -4,7 +4,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.orion.newsapp.util.Resource
-import com.orion.templete.Domain.use_case.GetTherapistUseCase
+import com.orion.templete.Domain.use_case.GetUserUseCase
 import com.orion.templete.util.stateholder.ExploreStateHolder
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @HiltViewModel
-class ChatViewModel @Inject constructor(private val getTherapistUseCase: GetTherapistUseCase) :
+class ChatViewModel @Inject constructor(private val getTherapistUseCase: GetUserUseCase) :
     ViewModel() {
     val therapistList = mutableStateOf(ExploreStateHolder())
 

@@ -1,7 +1,7 @@
 package com.orion.templete.Domain.Repository
 
-import com.orion.templete.Data.Model.UserDTO
+import com.orion.templete.Data.Model.PersonDTO
 
 interface GetUserRepo {
-    suspend fun getUser():UserDTO
+    suspend fun getUser():PersonDTO
 }

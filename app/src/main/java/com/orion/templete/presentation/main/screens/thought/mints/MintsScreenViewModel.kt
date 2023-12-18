@@ -4,7 +4,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.orion.newsapp.util.Resource
-import com.orion.templete.Domain.use_case.GetMintsUseCase
 import com.orion.templete.util.stateholder.MintsStateHolder
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn

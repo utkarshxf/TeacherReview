@@ -12,7 +12,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import com.orion.templete.Data.Model.BlogDTOItem
 import com.orion.templete.presentation.main.common.tab_bar.TabItem
 import com.orion.templete.presentation.main.common.tab_bar.Tabbar
 

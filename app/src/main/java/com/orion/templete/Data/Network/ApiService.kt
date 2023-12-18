@@ -1,33 +1,19 @@
 package com.orion.templete.Data.Network
 
-import com.orion.templete.Data.Model.BlogDTO
-import com.orion.templete.Data.Model.MintDTO
-import com.orion.templete.Data.Model.UserDTO
-import com.orion.templete.Data.Model.exploreDTO
-import retrofit2.Response
+import com.orion.templete.Data.Model.BooksDTO
+import com.orion.templete.Data.Model.PersonDTO
 import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface ApiService {
 //    after ? everything represent query
-    @GET("explore/")
-    suspend fun getAllTherapist(
+    @GET("books/")
+    suspend fun getAllBooks(
     //we have to pass the query
-    ):retrofit2.Response<exploreDTO>
+    ):retrofit2.Response<BooksDTO>
 
     @GET("person/id/")
     suspend fun currentUser(
-        @Query("personId") country:String = "voodoo",
-    ):retrofit2.Response<UserDTO>
-
-    @GET("mints/")
-    suspend fun getAllmints(
-        //we have to pass the query
-    ):retrofit2.Response<MintDTO>
-
-    @GET("blogs/")
-    suspend fun getAllblog(
-        //we have to pass the query
-    ):retrofit2.Response<BlogDTO>
-
+        @Query("personId") country:String = "123",
+    ):retrofit2.Response<PersonDTO>
 }

@@ -60,7 +60,6 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
-import com.orion.templete.Data.Model.BlogDTOItem
 import com.orion.templete.R
 import com.orion.templete.presentation.main.screens.home.main.MainScreenModel
 import com.orion.templete.presentation.ui.theme.TempleteTheme

@@ -1,10 +1,7 @@
 package com.orion.templete.presentation.main.screens.home.blogs
 
 
-import android.content.res.Resources.Theme
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -19,11 +16,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -39,24 +33,19 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
-import com.orion.templete.Data.Model.BlogDTO
-import com.orion.templete.Data.Model.BlogDTOItem
+import com.orion.templete.Data.Model.BooksDTO
 import com.orion.templete.R
 import com.orion.templete.presentation.main.screens.home.mySearchBar
-import com.orion.templete.presentation.main.screens.thought.common.PersonDetails
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BlogScreen(
     scrollBehavior: TopAppBarScrollBehavior,
-    navigateToSelectedBlog: (BlogDTOItem) -> Unit = {},
+    navigateToSelectedBlog: (BooksDTO) -> Unit = {},
     blogViewModel: BlogScreenViewModel = hiltViewModel()
 )
 {
@@ -80,7 +69,7 @@ fun BlogScreen(
 }
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RenderBlogScreen(scrollBehavior: TopAppBarScrollBehavior, data: BlogDTO , navigateToSelectedBlog: (BlogDTOItem) -> Unit = {})
+fun RenderBlogScreen(scrollBehavior: TopAppBarScrollBehavior, data: BooksDTO , navigateToSelectedBlog: (BooksDTO) -> Unit = {})
 {
         Column(Modifier
             .nestedScroll(scrollBehavior.nestedScrollConnection)) {
@@ -96,8 +85,8 @@ fun RenderBlogScreen(scrollBehavior: TopAppBarScrollBehavior, data: BlogDTO , na
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun  BlogCard(
-    blogCardData: BlogDTOItem,
-    navigateToSelectedBlog: (BlogDTOItem) -> Unit,
+    blogCardData: BooksDTO,
+    navigateToSelectedBlog: (BooksDTO) -> Unit,
 ) {
     Row(
         modifier = Modifier
@@ -129,7 +118,7 @@ fun  BlogCard(
                 Spacer(modifier = Modifier.height(12.dp))
 
                 Text(
-                    text = blogCardData.title,
+                    text = blogCardData.name,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.padding(horizontal = 12.dp),
 //                     MaterialTheme.typography.labelMedium

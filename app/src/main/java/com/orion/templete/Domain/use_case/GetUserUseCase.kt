@@ -1,7 +1,7 @@
 package com.orion.templete.Domain.use_case
 
 import com.orion.newsapp.util.Resource
-import com.orion.templete.Data.Model.UserDTO
+import com.orion.templete.Data.Model.PersonDTO
 import com.orion.templete.Domain.Repository.GetUserRepo
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 class GetUserUseCase @Inject constructor(private val getUserRepo: GetUserRepo) {
 
-    operator fun invoke(): Flow<Resource<UserDTO>> = flow {
+    operator fun invoke(): Flow<Resource<PersonDTO>> = flow {
         emit(Resource.Loading(""))
         try {
             emit(Resource.Success(getUserRepo.getUser()))

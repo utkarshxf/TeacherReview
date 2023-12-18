@@ -207,7 +207,7 @@ fun BookInformation(goToReviewScreen: () -> Unit , userViewModel: MainScreenMode
 
     res.data?.let { data->
         Spacer(modifier = Modifier.size(18.dp))
-        AiIndicator(data.activeDays)
+        AiIndicator(5)
         Text(text = "Reviews", fontWeight = Bold)
         Spacer(modifier = Modifier.size(18.dp))
         Reviews(goToReviewScreen)

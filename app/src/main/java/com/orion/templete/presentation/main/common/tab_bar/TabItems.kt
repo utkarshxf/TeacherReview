@@ -9,7 +9,7 @@ import com.orion.templete.R
 import com.orion.templete.presentation.main.screens.home.main.MainScreen
 import com.orion.templete.presentation.main.screens.home.subscription.SubscriptionScreen
 import com.orion.templete.presentation.main.screens.home.blogs.BlogScreen
-import com.orion.templete.presentation.main.screens.thought.mints.MintsScreen
+import com.orion.templete.presentation.main.screens.home.blogs.selected_blog.mints.MintsScreen
 
 typealias ComposableFun = @Composable () -> Unit
 @OptIn(ExperimentalMaterial3Api::class)

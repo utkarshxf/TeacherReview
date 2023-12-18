@@ -1,4 +1,4 @@
-package com.orion.templete.presentation.main.screens.thought.mints
+package com.orion.templete.presentation.main.screens.home.blogs.selected_blog.mints
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Box
@@ -19,13 +19,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.orion.templete.R
+import com.orion.templete.presentation.main.screens.home.blogs.BlogScreenViewModel
 import com.orion.templete.presentation.main.screens.thought.common.PersonDetails
 import com.orion.templete.presentation.ui.theme.TempleteTheme
 
-@OptIn(ExperimentalMaterial3Api::class)
+
 @Composable
-fun MintsScreen(mintsViewModel: MintsScreenViewModel = hiltViewModel()) {
-    val res = mintsViewModel.Mints.value
+fun MintsScreen(mintsViewModel: BlogScreenViewModel = hiltViewModel()) {
+    val res = mintsViewModel.BooksList.value
 
     if (res.isLoading) {
         Box(modifier = Modifier.fillMaxSize()) {

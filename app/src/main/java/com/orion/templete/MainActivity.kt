@@ -18,7 +18,7 @@ import com.orion.templete.presentation.login.LoginScreen
 import com.orion.templete.presentation.main.MainScreen
 import com.orion.templete.presentation.main.screens.profile.ProfileScreen
 import com.orion.templete.presentation.main.screens.setting.SettingScreen
-import com.orion.templete.presentation.main.screens.thought.mints.MintsScreen
+import com.orion.templete.presentation.main.screens.home.blogs.selected_blog.mints.MintsScreen
 import com.orion.templete.presentation.splash.SplashScreen
 import com.orion.templete.presentation.ui.theme.TempleteTheme
 import dagger.hilt.android.AndroidEntryPoint

@@ -45,6 +45,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.orion.templete.Data.Model.PersonDTO
 import com.orion.templete.R
 import com.orion.templete.presentation.main.screens.home.main.componenets.LineChart
 
@@ -66,13 +67,11 @@ fun MainScreen(scrollBehavior: TopAppBarScrollBehavior , userViewModel: MainScre
         }
     }
 
-    res.data?.let {
-        RenderMain(scrollBehavior , res.data)
-    }
+    RenderMain(scrollBehavior , res.data)
 }
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RenderMain(scrollBehavior: TopAppBarScrollBehavior, data: UserDTO?)
+fun RenderMain(scrollBehavior: TopAppBarScrollBehavior, data: PersonDTO?)
 {
     val state = rememberLazyListState()
     LazyColumn(
@@ -90,7 +89,7 @@ fun RenderMain(scrollBehavior: TopAppBarScrollBehavior, data: UserDTO?)
             }
             Spacer(modifier = Modifier.size(18.dp))
             if (data != null) {
-                CircularIndicator(data.activeDays)
+                CircularIndicator(5)
             }
             RoundedLinearProgressIndicator(progress = 0.4f)
             Spacer(modifier = Modifier.size(18.dp))
@@ -99,14 +98,14 @@ fun RenderMain(scrollBehavior: TopAppBarScrollBehavior, data: UserDTO?)
             TherapistRow()
             Spacer(modifier = Modifier.size(18.dp))
             if (data != null) {
-                LineChartScreen(data.dailyReport)
+//                LineChartScreen(data.dailyReport)
             }
 
             Spacer(modifier = Modifier.size(18.dp))
             Text(text = "Today’s Task", fontWeight = FontWeight.Bold)
             for (i in 0..2) {
                 if (data != null) {
-                    TodaysTask(R.drawable.cba, data.todayTask[i])
+//                    TodaysTask(R.drawable.cba, data.todayTask[i])
                 }
             }
         }

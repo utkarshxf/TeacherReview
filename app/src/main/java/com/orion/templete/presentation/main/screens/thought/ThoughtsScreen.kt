@@ -12,12 +12,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import com.orion.templete.Data.Model.BooksDTO
 import com.orion.templete.presentation.main.common.tab_bar.TabItem
 import com.orion.templete.presentation.main.common.tab_bar.Tabbar
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun ThoughtsScreen(scrollBehavior: TopAppBarScrollBehavior, navigateToSelectedBlog: (BlogDTOItem) -> Unit) {
+fun ThoughtsScreen(scrollBehavior: TopAppBarScrollBehavior, navigateToSelectedBlog: (BooksDTO) -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()

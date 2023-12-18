@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -37,6 +38,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
+import com.orion.templete.Data.Model.BookListDTO
 import com.orion.templete.Data.Model.BooksDTO
 import com.orion.templete.R
 import com.orion.templete.presentation.main.screens.home.mySearchBar
@@ -49,7 +51,7 @@ fun BlogScreen(
     blogViewModel: BlogScreenViewModel = hiltViewModel()
 )
 {
-    val res = blogViewModel.Blogs.value
+    val res = blogViewModel.BooksList.value
 
     if (res.isLoading){
         Box(modifier = Modifier.fillMaxSize()){
@@ -69,7 +71,7 @@ fun BlogScreen(
 }
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RenderBlogScreen(scrollBehavior: TopAppBarScrollBehavior, data: BooksDTO , navigateToSelectedBlog: (BooksDTO) -> Unit = {})
+fun RenderBlogScreen(scrollBehavior: TopAppBarScrollBehavior, data: BookListDTO , navigateToSelectedBlog: (BooksDTO) -> Unit = {})
 {
         Column(Modifier
             .nestedScroll(scrollBehavior.nestedScrollConnection)) {
@@ -124,7 +126,7 @@ fun  BlogCard(
 //                     MaterialTheme.typography.labelMedium
                 )
                 Text(
-                    text = "alok randi",
+                    text = blogCardData.about,
                     modifier = Modifier.padding(horizontal = 12.dp), fontStyle = FontStyle.Italic
                 )
                 Rating(2)
@@ -148,7 +150,7 @@ fun  BlogCard(
                     )
                     Spacer(modifier = Modifier.width(12.dp))
                     Text(
-                        text = "RS "+blogCardData.views.toString(),
+                        text = "RS "+blogCardData.name.toString(),
                         color = MaterialTheme.colorScheme.primary
                     )
                 }

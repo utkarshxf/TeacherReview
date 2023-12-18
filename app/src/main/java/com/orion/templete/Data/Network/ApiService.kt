@@ -15,6 +15,6 @@ interface ApiService {
 
     @GET("person/id/")
     suspend fun currentUser(
-        @Query("personId") country:String = "123",
+        @Query("personId") personId:String = "abcd",
     ):retrofit2.Response<PersonDTO>
 }

@@ -27,7 +27,6 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ButtonElevation
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -57,22 +56,20 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
-import com.orion.templete.Data.Model.BookListDTO
 import com.orion.templete.Data.Model.BooksDTO
+import com.orion.templete.Data.Model.Review
 import com.orion.templete.R
-import com.orion.templete.presentation.main.screens.home.main.MainScreenModel
 import com.orion.templete.presentation.ui.theme.TempleteTheme
 import kotlin.math.max
 import kotlin.math.min
 
 @Composable
-fun SelectedBlogScreen(navigateToBlogs: () -> Unit = {}, addScreenData: BooksDTO?, goToReviewScreen: () -> Unit) {
+fun SelectedBlogScreen(navigateToBlogs: () -> Unit = {}, addScreenData: BooksDTO?, goToReviewScreen: (List<Review>) -> Unit) {
     var scrollState = rememberLazyListState()
     Surface() {
-        ContentText(scrollState = scrollState ,goToReviewScreen )
+        ContentText(scrollState = scrollState ,goToReviewScreen ,addScreenData )
         ParallaxToolbar(scrollState = scrollState , navigateToBlogs = navigateToBlogs,addScreenData)
     }
 
@@ -139,7 +136,7 @@ fun ParallaxToolbar(
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
-                    text = "Childhood Marketplace",
+                    text = addScreenData!!.name,
                     fontSize = 26.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier
@@ -189,33 +186,17 @@ fun CircularButton(
 
 
 @Composable
-fun BookInformation(goToReviewScreen: () -> Unit , userViewModel: MainScreenModel = hiltViewModel())
+fun BookInformation(goToReviewScreen: (List<Review>) -> Unit, bookData: BooksDTO?)
 {
-    val res = userViewModel.User.value
-
-    if (res.isLoading){
-        Box(modifier = Modifier.fillMaxSize()){
-            CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
-
-        }
-    }
-    if (res.error.isNotBlank()){
-        Box(modifier = Modifier.fillMaxSize()){
-            Text(text = res.error, modifier = Modifier.align(Alignment.Center))
-        }
-    }
-
-    res.data?.let { data->
         Spacer(modifier = Modifier.size(18.dp))
         AiIndicator(5)
         Text(text = "Reviews", fontWeight = Bold)
         Spacer(modifier = Modifier.size(18.dp))
-        Reviews(goToReviewScreen)
+        Reviews(goToReviewScreen , bookData)
         Spacer(modifier = Modifier.size(18.dp))
         Text(text = "Write your Review", fontWeight = FontWeight.Bold)
         Spacer(modifier = Modifier.size(18.dp))
         ReviewColoum()
-    }
 }
 @Composable
 fun AiIndicator(activeDays: Int) {
@@ -236,7 +217,7 @@ fun AiIndicator(activeDays: Int) {
 }
 
 @Composable
-fun Reviews(goToReviewScreen: () -> Unit) {
+fun Reviews(goToReviewScreen: (List<Review>) -> Unit, bookData: BooksDTO?) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -247,7 +228,7 @@ fun Reviews(goToReviewScreen: () -> Unit) {
 
             Text("recipe.reviews", color = DarkGray)
         }
-        Button(onClick = { goToReviewScreen() }, elevation = null, colors = ButtonDefaults.buttonColors(
+        Button(onClick = { goToReviewScreen(bookData!!.review) }, elevation = null, colors = ButtonDefaults.buttonColors(
             containerColor = Transparent,
         )) {
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -296,7 +277,7 @@ fun TextBox() {
 }
 
 @Composable
-fun ContentText(scrollState: LazyListState, goToReviewScreen: () -> Unit) {
+fun ContentText(scrollState: LazyListState, goToReviewScreen: (List<Review>) -> Unit, addScreenData: BooksDTO?) {
     val AppBarExpendedHeight = 400.dp
     LazyColumn(
         contentPadding = PaddingValues(top = AppBarExpendedHeight),
@@ -305,10 +286,15 @@ fun ContentText(scrollState: LazyListState, goToReviewScreen: () -> Unit) {
     ) {
         item {
             Column(modifier = Modifier.padding(12.dp)){
-                Text(text = "Lorem ipsum dolor sit amet consectetur. Volutpat nascetur turpis eget arcu. Vel volutpat porta cursus quis dignissim cursus commodo. Turpis congue mauris sed ut. Quis arcu fermentum duis a blandit eget lorem. Egestas metus turpis scelerisque eu. Ipsum eu morbi morbi lacus felis. Elementum suspendisse in massa tempor donec ultrices ultricies. Massa vitae sit est est tristique faucibus posuere quis. Ac sed ullamcorper urna ut.\n" +
-                        "Eu nullam ornare donec leo dui augue dui. Viverra duis egestas eu pulvinar pharetra. Sed volutpat gravida vestibulum purus quis sed proin pulvinar. Quis ornare in auctor viverra sed elementum tellus diam. Est adipiscing magna tempor lacinia vitae. In viverra hendrerit suspendisse malesuada eu nec vitae amet. Neque tincidunt id rutrum aliquet volutpat donec placerat.\n")
+                if (addScreenData != null) {
+                    Text(text =  addScreenData.about)
+                }
+                else
+                {
+                    Text(text = "nothing about is present")
+                }
                 Spacer(modifier = Modifier.size(18.dp))
-                BookInformation(goToReviewScreen)
+                BookInformation(goToReviewScreen, addScreenData)
             }
 
         }

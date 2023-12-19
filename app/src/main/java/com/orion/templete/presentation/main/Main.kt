@@ -83,7 +83,6 @@ fun MainScreen(
                         )
                         navController.navigate(Screen.SelectedBlog.route)
                     })
-
             }
         })
     }

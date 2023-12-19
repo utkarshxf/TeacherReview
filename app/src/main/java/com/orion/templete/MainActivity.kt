@@ -13,6 +13,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.orion.templete.Data.Model.BooksDTO
+import com.orion.templete.Data.Model.Review
 import com.orion.templete.Domain.use_case.Screen
 import com.orion.templete.presentation.login.LoginScreen
 import com.orion.templete.presentation.main.MainScreen
@@ -54,7 +55,14 @@ class MainActivity : ComponentActivity() {
                         }
                         composable(route = Screen.Reviews.route)
                         {
-                            MintsScreen()
+                            val ReviewScreen =
+                                navController.previousBackStackEntry
+                                    ?.savedStateHandle
+                                    ?.get<List<Review>>("review_data")
+                            if (ReviewScreen !=null)
+                            {
+                                MintsScreen(ReviewScreen!!)
+                            }
                         }
                         composable(route = Screen.Settings.route) {
                             SettingScreen()
@@ -64,10 +72,12 @@ class MainActivity : ComponentActivity() {
                                 navController.previousBackStackEntry
                                     ?.savedStateHandle
                                     ?.get<BooksDTO>("data-mapped")
-                            SelectedBlogScreen(navigateToBlogs = { navController.popBackStack()},addScreenData) {
-                                navController.navigate(
-                                    Screen.Reviews.route
-                                )
+                            if(addScreenData != null)
+                            {
+                                SelectedBlogScreen(navigateToBlogs = { navController.popBackStack()},addScreenData) { reviewsData ->
+                                    navController.currentBackStackEntry?.savedStateHandle?.set( key = "review_data", value = reviewsData )
+                                    navController.navigate(Screen.Reviews.route)
+                                }
                             }
                         }
                     }

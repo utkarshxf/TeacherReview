@@ -146,7 +146,7 @@ fun LoginSheet(navController: NavController, showSheet: MutableState<Boolean>) {
             Spacer(modifier = Modifier.height(6.dp))
             Button(
                 onClick = { navController.popBackStack()
-                    navController.navigate(Screen.MainScreen.route) }, modifier = Modifier
+                    navController.navigate(Screen.selectionCourse.route) }, modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 12.dp), shape = RoundedCornerShape(8.dp)
 

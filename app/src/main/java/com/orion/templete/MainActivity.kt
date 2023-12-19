@@ -17,6 +17,8 @@ import com.orion.templete.Data.Model.Review
 import com.orion.templete.Domain.use_case.Screen
 import com.orion.templete.presentation.login.LoginScreen
 import com.orion.templete.presentation.main.MainScreen
+import com.orion.templete.presentation.main.screens.course_selection.YearPage
+import com.orion.templete.presentation.main.screens.course_selection.selectionCourse
 import com.orion.templete.presentation.main.screens.profile.ProfileScreen
 import com.orion.templete.presentation.main.screens.setting.SettingScreen
 import com.orion.templete.presentation.main.screens.home.blogs.selected_blog.mints.MintsScreen
@@ -46,6 +48,12 @@ class MainActivity : ComponentActivity() {
                         }
                         composable(route = Screen.LoginScreen.route) {
                             LoginScreen(navController = navController)
+                        }
+                        composable(route = Screen.year.route) {
+                            YearPage(navController = navController)
+                        }
+                        composable(route = Screen.selectionCourse.route) {
+                            selectionCourse(navController = navController)
                         }
                         composable(route = Screen.MainScreen.route) {
                             MainScreen(navController = navController)

@@ -113,53 +113,6 @@ fun RenderMain(scrollBehavior: TopAppBarScrollBehavior, data: PersonDTO?)
     }
 }
 
-@Composable
-fun TodaysTask(img: Int, s: String) {
-    Spacer(modifier = Modifier.size(12.dp))
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(200.dp), // Adjust the height as needed
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface), // Set the card background color
-        shape = RoundedCornerShape(12.dp)
-    ) {
-        Box(
-            modifier = Modifier.fillMaxSize()
-        ) {
-            Image(
-                painter = painterResource(id = img),
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier.fillMaxSize()
-            )
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(
-                        Brush.verticalGradient(
-                            colorStops = arrayOf(
-                                Pair(0.5f, Color.Transparent),
-                                Pair(1.5f, MaterialTheme.colorScheme.primary)
-                            )
-                        )
-                    )
-            )
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(16.dp), // Add padding to the Column for better text alignment
-                verticalArrangement = Arrangement.Bottom
-            ) {
-                Text(
-                    text = s,
-                    fontSize = 18.sp, // Adjust the font size as needed
-                    fontWeight = FontWeight.Bold,
-                    color = Color.White // Set text color
-                )
-            }
-        }
-    }
-}
 
 @Composable
 fun RoundedLinearProgressIndicator(

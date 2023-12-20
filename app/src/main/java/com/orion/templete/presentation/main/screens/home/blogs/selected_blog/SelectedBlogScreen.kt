@@ -1,4 +1,5 @@
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -56,11 +57,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.orion.templete.Data.Model.BooksDTO
 import com.orion.templete.Data.Model.Review
 import com.orion.templete.R
+import com.orion.templete.presentation.main.screens.home.blogs.BlogScreenViewModel
 import com.orion.templete.presentation.ui.theme.TempleteTheme
 import kotlin.math.max
 import kotlin.math.min
@@ -196,7 +199,7 @@ fun BookInformation(goToReviewScreen: (List<Review>) -> Unit, bookData: BooksDTO
         Spacer(modifier = Modifier.size(18.dp))
         Text(text = "Write your Review", fontWeight = FontWeight.Bold)
         Spacer(modifier = Modifier.size(18.dp))
-        ReviewColoum()
+        ReviewColoum(bookData)
 }
 @Composable
 fun AiIndicator(activeDays: Int) {
@@ -247,15 +250,15 @@ fun Reviews(goToReviewScreen: (List<Review>) -> Unit, bookData: BooksDTO?) {
 
 
 @Composable
-fun ReviewColoum() {
+fun ReviewColoum(bookData: BooksDTO?) {
     Card(modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(12.dp) , colors = CardDefaults.cardColors(containerColor = Transparent)) {
         Spacer(modifier = Modifier.size(18.dp))
-        TextBox()
+        TextBox(bookData)
     }
 }
 
 @Composable
-fun TextBox() {
+fun TextBox(bookData: BooksDTO?,bookViewModel: BlogScreenViewModel = hiltViewModel() ) {
     var text by rememberSaveable { mutableStateOf("") }
     OutlinedTextField(
         value = text,
@@ -269,7 +272,19 @@ fun TextBox() {
     )
     Spacer(modifier = Modifier.height(12.dp))
     Box(modifier = Modifier.fillMaxWidth() , Alignment.Center ){
-        Button(onClick = { /*TODO*/ } , shape = RoundedCornerShape(6.dp)) {
+        Button(onClick = {
+            val TempReview= Review("null" , "null"  , "5" ,text , "null" , false)
+//            bookData?.review?.plus(TempReview)
+            bookData?.review = bookData?.review.orEmpty() + TempReview
+            if (bookData != null) {
+
+                bookViewModel.updateBooks("65816794cee17469e5886f14", bookData)
+                var state = bookViewModel.UpdatedBook.value
+                Log.v("qwerty" , state.toString())
+
+            }
+
+        } , shape = RoundedCornerShape(6.dp)) {
             Text(text = "Share Review")
         }
     }

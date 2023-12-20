@@ -20,4 +20,14 @@ class GetBlogUseCase @Inject constructor(private val getBlogRepo: GetBlogRepo) {
         }
     }
 
+    operator fun invoke(key: String, updatedReviewBook: BooksDTO): Flow<Resource<BooksDTO>> = flow {
+        emit(Resource.Loading(""))
+        try {
+            emit(Resource.Success(getBlogRepo.update(key , updatedReviewBook)))
+        } catch (e:Exception)
+        {
+            emit(Resource.Error(e.message))
+        }
+    }
+
 }

@@ -34,19 +34,19 @@ fun YearPage(navController: NavController) {
             .fillMaxWidth()) {
             Text("Selection Year: " , fontSize = 32.sp)
             Card(modifier = Modifier.fillMaxWidth()) {
-                OutlinedButton(modifier = Modifier.fillMaxWidth(), onClick = { navController.navigate(Screen.MainScreen.route)} , shape = RoundedCornerShape(12.dp)) {
+                OutlinedButton(modifier = Modifier.fillMaxWidth(), onClick = { navController.navigate(Screen.TopicsScreen.route)} , shape = RoundedCornerShape(12.dp)) {
                     Text(text = "Year 1")
                 }
                 Spacer(modifier = Modifier.height(12.dp))
-                OutlinedButton(modifier = Modifier.fillMaxWidth(),onClick = { navController.navigate(Screen.MainScreen.route) },shape = RoundedCornerShape(12.dp)) {
+                OutlinedButton(modifier = Modifier.fillMaxWidth(),onClick = { navController.navigate(Screen.TopicsScreen.route) },shape = RoundedCornerShape(12.dp)) {
                     Text(text = "Year 2")
                 }
                 Spacer(modifier = Modifier.height(12.dp))
-                OutlinedButton(modifier = Modifier.fillMaxWidth(),onClick = { navController.navigate(Screen.MainScreen.route) }, shape = RoundedCornerShape(12.dp)) {
+                OutlinedButton(modifier = Modifier.fillMaxWidth(),onClick = { navController.navigate(Screen.TopicsScreen.route) }, shape = RoundedCornerShape(12.dp)) {
                     Text(text = "Year 3")
                 }
                 Spacer(modifier = Modifier.height(12.dp))
-                OutlinedButton(modifier = Modifier.fillMaxWidth(),onClick = { navController.navigate(Screen.MainScreen.route) }, shape = RoundedCornerShape(12.dp)) {
+                OutlinedButton(modifier = Modifier.fillMaxWidth(),onClick = { navController.navigate(Screen.TopicsScreen.route) }, shape = RoundedCornerShape(12.dp)) {
                     Text(text = "Year 4")
                 }
             }

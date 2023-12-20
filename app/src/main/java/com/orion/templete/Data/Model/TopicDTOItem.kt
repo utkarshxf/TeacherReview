@@ -4,11 +4,8 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class BooksDTO(
-    val about: String,
-    val author: String,
+data class TopicDTOItem(
     val _id: String,
-    val imageUrl: String,
-    val name: String,
-    var review: List<Review>
+    val about: String,
+    val name: String
 ): Parcelable

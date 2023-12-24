@@ -1,4 +1,4 @@
-package com.orion.templete.presentation.main.screens.home.blogs
+package com.orion.templete.presentation.main.screens.home.teachers_list
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -6,35 +6,35 @@ import androidx.lifecycle.viewModelScope
 import com.orion.newsapp.util.Resource
 import com.orion.templete.Data.Model.TeacherDTO
 import com.orion.templete.Domain.use_case.TeacherUseCase
-import com.orion.templete.util.stateholder.BlogsStateHolder
-import com.orion.templete.util.stateholder.bookUpdatedValue
+import com.orion.templete.util.stateholder.TeacherListStateHolder
+import com.orion.templete.util.stateholder.ReviewUpdatedValue
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @HiltViewModel
-class BlogScreenViewModel @Inject constructor(private val teacherUseCase: TeacherUseCase):
+class TeachersListScreenViewModel @Inject constructor(private val teacherUseCase: TeacherUseCase):
     ViewModel() {
-    val BooksList = mutableStateOf(BlogsStateHolder())
-    val UpdatedBook = mutableStateOf(bookUpdatedValue())
+    val TeacherList = mutableStateOf(TeacherListStateHolder())
+    val UpdatedReview = mutableStateOf(ReviewUpdatedValue())
     init {
-        getBlogs()
+        getAllTeacher()
     }
 
 
-    fun getBlogs(){
+    fun getAllTeacher(){
         teacherUseCase().onEach {
 
             when(it){
                 is Resource.Loading->{
-                    BooksList.value = BlogsStateHolder(isLoading = true)
+                    TeacherList.value = TeacherListStateHolder(isLoading = true)
                 }
                 is Resource.Success->{
-                    BooksList.value = BlogsStateHolder(data = it.data)
+                    TeacherList.value = TeacherListStateHolder(data = it.data)
                 }
                 is Resource.Error->{
-                    BooksList.value = BlogsStateHolder(error = it.message.toString())
+                    TeacherList.value = TeacherListStateHolder(error = it.message.toString())
                 }
 
                 else -> {}
@@ -47,13 +47,13 @@ class BlogScreenViewModel @Inject constructor(private val teacherUseCase: Teache
         teacherUseCase(Key , updatedBook).onEach {
             when(it){
                 is Resource.Loading->{
-                    UpdatedBook.value = bookUpdatedValue(isLoading = true)
+                    UpdatedReview.value = ReviewUpdatedValue(isLoading = true)
                 }
                 is Resource.Success->{
-                    UpdatedBook.value = bookUpdatedValue(data = it.data)
+                    UpdatedReview.value = ReviewUpdatedValue(data = it.data)
                 }
                 is Resource.Error->{
-                    UpdatedBook.value = bookUpdatedValue(error = it.message.toString())
+                    UpdatedReview.value = ReviewUpdatedValue(error = it.message.toString())
                 }
 
                 else -> {}

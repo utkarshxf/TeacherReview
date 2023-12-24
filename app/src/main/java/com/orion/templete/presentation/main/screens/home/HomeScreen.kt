@@ -17,19 +17,23 @@ import com.orion.templete.presentation.main.common.tab_bar.Tabbar
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(scrollBehavior: TopAppBarScrollBehavior , navigateToSelectedBlog: (TeacherDTO) -> Unit = {}) {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-            ) {
-                val context = LocalContext.current
-                val list = listOf(TabItem.Main(scrollBehavior,context), TabItem.Blog(scrollBehavior,navigateToSelectedBlog,context), TabItem.Subscription(scrollBehavior,context))
-                val pagerState = rememberPagerState(initialPage = 1)
-                Tabbar(pagerState, list)
-            }
-        }
+fun HomeScreen(scrollBehavior: TopAppBarScrollBehavior, navigateToSelectedBlog: (TeacherDTO) -> Unit = {}) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        val context = LocalContext.current
+        val list = listOf(
+            TabItem.Profile(scrollBehavior, context),
+            TabItem.TeacherListScreen(scrollBehavior, navigateToSelectedBlog, context),
+            TabItem.MyReview(scrollBehavior, context)
+        )
+        val pagerState = rememberPagerState(initialPage = 1)
+        Tabbar(pagerState, list)
+    }
+}
 
-@Preview(showBackground = true )
+@Preview(showBackground = true)
 @Composable
 fun M() {
     MaterialTheme {

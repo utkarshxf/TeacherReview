@@ -63,7 +63,7 @@ import com.bumptech.glide.integration.compose.GlideImage
 import com.orion.templete.Data.Model.TeacherDTO
 import com.orion.templete.Data.Model.Review
 import com.orion.templete.R
-import com.orion.templete.presentation.main.screens.home.blogs.BlogScreenViewModel
+import com.orion.templete.presentation.main.screens.home.teachers_list.TeachersListScreenViewModel
 import com.orion.templete.presentation.ui.theme.TempleteTheme
 import kotlin.math.max
 import kotlin.math.min
@@ -258,9 +258,9 @@ fun ReviewColoum(bookData: TeacherDTO?) {
 }
 
 @Composable
-fun TextBox(bookData: TeacherDTO?, bookViewModel: BlogScreenViewModel = hiltViewModel() ) {
+fun TextBox(bookData: TeacherDTO?, bookViewModel: TeachersListScreenViewModel = hiltViewModel() ) {
     var text by rememberSaveable { mutableStateOf("") }
-    val res = bookViewModel.BooksList.value
+    val res = bookViewModel.TeacherList.value
     OutlinedTextField(
         value = text,
         onValueChange = { text = it },

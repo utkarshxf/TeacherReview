@@ -1,4 +1,4 @@
-package com.orion.templete.presentation.main.screens.home.main
+package com.orion.templete.presentation.main.screens.home.profile
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @HiltViewModel
-class MainScreenModel @Inject constructor(private val getUserUseCase: GetUserUseCase):
+class ProfileScreenModel @Inject constructor(private val getUserUseCase: GetUserUseCase):
     ViewModel() {
         val User = mutableStateOf(UserStateHolder())
     init {

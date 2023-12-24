@@ -2,13 +2,7 @@ package com.orion.templete.presentation.main.screens.home
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
@@ -66,7 +60,8 @@ fun mySearchBar() {
                     }
                 })
         }
-    }, shape = RoundedCornerShape(12.dp)) {
+    }, shape = RoundedCornerShape(12.dp)
+    ) {
         items.forEach {
             Row(modifier = Modifier.padding(all = 14.dp)) {
                 if (it.isNotEmpty()) {

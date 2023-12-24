@@ -1,4 +1,4 @@
-package com.orion.templete.presentation.main.screens.home.blogs
+package com.orion.templete.presentation.main.screens.home.teachers_list
 
 
 import androidx.compose.foundation.BorderStroke
@@ -45,13 +45,13 @@ import com.orion.templete.presentation.main.screens.home.mySearchBar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BlogScreen(
+fun TeacherListScreen(
     scrollBehavior: TopAppBarScrollBehavior,
     navigateToSelectedBlog: (TeacherDTO) -> Unit = {},
-    blogViewModel: BlogScreenViewModel = hiltViewModel()
+    blogViewModel: TeachersListScreenViewModel = hiltViewModel()
 )
 {
-    val res = blogViewModel.BooksList.value
+    val res = blogViewModel.TeacherList.value
 
     if (res.isLoading){
         Box(modifier = Modifier.fillMaxSize()){

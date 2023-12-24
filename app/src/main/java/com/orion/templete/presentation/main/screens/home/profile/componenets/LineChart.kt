@@ -1,4 +1,4 @@
-package com.orion.templete.presentation.main.screens.home.main.componenets
+package com.orion.templete.presentation.main.screens.home.profile.componenets
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.size

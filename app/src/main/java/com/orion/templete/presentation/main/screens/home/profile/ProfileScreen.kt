@@ -1,10 +1,11 @@
-package com.orion.templete.presentation.main.screens.home.main
+package com.orion.templete.presentation.main.screens.home.profile
 
 import CustomComponent
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,6 +20,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -34,7 +36,6 @@ import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -43,36 +44,37 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.bumptech.glide.integration.compose.GlideImage
 import com.orion.templete.Data.Model.PersonDTO
+import com.orion.templete.Data.Model.TeacherDTO
 import com.orion.templete.R
-import com.orion.templete.presentation.main.screens.home.main.componenets.LineChart
+import com.orion.templete.presentation.main.screens.home.teachers_list.TeachersListScreenViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen(scrollBehavior: TopAppBarScrollBehavior , userViewModel: MainScreenModel = hiltViewModel())
-{
+fun ProfileScreen(scrollBehavior: TopAppBarScrollBehavior, userViewModel: ProfileScreenModel = hiltViewModel()) {
     val res = userViewModel.User.value
 
-    if (res.isLoading){
-        Box(modifier = Modifier.fillMaxSize()){
+    if (res.isLoading) {
+        Box(modifier = Modifier.fillMaxSize()) {
             CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
 
         }
     }
-    if (res.error.isNotBlank()){
-        Box(modifier = Modifier.fillMaxSize()){
+    if (res.error.isNotBlank()) {
+        Box(modifier = Modifier.fillMaxSize()) {
             Text(text = res.error, modifier = Modifier.align(Alignment.Center))
         }
     }
 
-    RenderMain(scrollBehavior , res.data)
+    RenderMain(scrollBehavior, res.data)
 }
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RenderMain(scrollBehavior: TopAppBarScrollBehavior, data: PersonDTO?)
-{
+fun RenderMain(scrollBehavior: TopAppBarScrollBehavior, data: PersonDTO?) {
     val state = rememberLazyListState()
     LazyColumn(
         modifier = Modifier
@@ -85,29 +87,36 @@ fun RenderMain(scrollBehavior: TopAppBarScrollBehavior, data: PersonDTO?)
         item {
             Spacer(modifier = Modifier.size(18.dp))
             if (data != null) {
-                Greeting(data.firstName+" "+data.lastName)
+                Greeting(data.firstName + " " + data.lastName)
             }
             Spacer(modifier = Modifier.size(18.dp))
             if (data != null) {
                 CircularIndicator(5)
             }
-            RoundedLinearProgressIndicator(progress = 0.4f)
+            RoundedLinearProgressIndicator(progress = 4f)
             Spacer(modifier = Modifier.size(18.dp))
-            Text(text = "Book Recommendation", fontWeight = FontWeight.Bold)
-            Spacer(modifier = Modifier.size(18.dp))
-            TherapistRow()
-            Spacer(modifier = Modifier.size(18.dp))
-            if (data != null) {
-//                LineChartScreen(data.dailyReport)
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(text = "Teacher Recommendation", fontWeight = FontWeight.Bold)
+                Card(
+                    shape = RoundedCornerShape(12.dp),
+                    colors = CardDefaults.cardColors(containerColor = Color.Transparent),
+                ) {
+                    Text(
+                        text = "more",
+                        color = MaterialTheme.colorScheme.outline.copy(0.8f),
+                        modifier = Modifier.clickable {
+
+                        }
+                    )
+                }
             }
 
             Spacer(modifier = Modifier.size(18.dp))
-            Text(text = "Today’s Task", fontWeight = FontWeight.Bold)
-            for (i in 0..2) {
-                if (data != null) {
-//                    TodaysTask(R.drawable.cba, data.todayTask[i])
-                }
-            }
+            TeacherRecommendation()
         }
 
     }
@@ -121,7 +130,7 @@ fun RoundedLinearProgressIndicator(
     color: Color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f),
     shape: Shape = RoundedCornerShape(50) // Adjust the corner radius as needed
 ) {
-    Text(text = "Over All Progress", fontWeight = FontWeight.Bold)
+    Text(text = "Level : "+progress.toInt(), fontWeight = FontWeight.Bold)
     Spacer(modifier = Modifier.size(12.dp))
     Surface(
         modifier = modifier
@@ -132,32 +141,10 @@ fun RoundedLinearProgressIndicator(
     ) {
         LinearProgressIndicator(
             trackColor = MaterialTheme.colorScheme.background.copy(0.25f),
-            progress = progress,
+            progress = 0.1f * progress,
             modifier = Modifier.fillMaxSize()
         )
     }
-}
-
-@Composable
-fun LineChartScreen(dailyReport: List<Float>) {
-    val dummyData = listOf(1f, 2f, 3f, 4f, 1f, 2f, 4f, 3f) // Replace with your actual data
-    val gradient = Brush.horizontalGradient(
-        colors = listOf(
-            MaterialTheme.colorScheme.background,
-            MaterialTheme.colorScheme.secondary.copy(0.2f)
-        )
-    )
-    val baseColor = MaterialTheme.colorScheme.primary
-    Text(text = "Daily Report", fontWeight = FontWeight.Bold)
-    Spacer(modifier = Modifier.size(24.dp))
-    LineChart(
-        values = dailyReport,
-        gradient = gradient,
-        baseColor = baseColor,
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(300.dp) // Adjust the height as needed
-    )
 }
 
 @Composable
@@ -169,12 +156,12 @@ fun CircularIndicator(activeDays: Int) {
         modifier = Modifier.fillMaxWidth()
     ) {
         CustomComponent(
-            smallText = stringResource(R.string.completed),
+            smallText = "Total Reviews",
             indicatorValue = activeDays,
             maxIndicatorValue = 30,
-            bigTextSuffix = stringResource(R.string.days)
+            bigTextSuffix = ""
         )
-        CustomComponent(smallText = stringResource(R.string.today_s_task), indicatorValue = 85)
+        CustomComponent(smallText = "Completed Profile", indicatorValue = 85)
     }
 }
 
@@ -198,38 +185,45 @@ fun Greeting(name: String) {
             }
         }
         Button(onClick = { /*TODO*/ }, shape = RoundedCornerShape(12.dp)) {
-            Text(text = stringResource(R.string.reexamine))
+            Text(text = "Edit Profile")
         }
     }
 }
 
 
 @Composable
-fun TherapistRow() {
-    LazyRow {
-        items(50) {
-            Spacer(modifier = Modifier.width(12.dp))
-            ProfileCard()
+fun TeacherRecommendation() {
+    val res :TeachersListScreenViewModel = hiltViewModel()
+    res.TeacherList.value.data?.let {
+        LazyRow {
+            items(it) {
+                Spacer(modifier = Modifier.width(12.dp))
+                TeacherRCard(it)
+            }
         }
     }
 }
+
+@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-fun ProfileCard() {
+fun TeacherRCard(i: TeacherDTO) {
     Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
+        horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.SpaceBetween,
+        modifier = Modifier.size(width = 150.dp , height = 230.dp)
             .border(BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(0.2f)), shape = RoundedCornerShape(12.dp))
             .background(
                 color = Color.Transparent,
                 shape = RoundedCornerShape(6.dp)
-            ).padding(6.dp),
+            )
+            .padding(6.dp),
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.img), contentDescription = null, modifier = Modifier
+        GlideImage(
+            model = i.imageUrl, contentDescription = null,
+            modifier = Modifier
                 .padding(12.dp)
-                .fillMaxSize()
-            ,contentScale = ContentScale.Crop,
+                .fillMaxWidth(),
+            contentScale = ContentScale.Crop,
         )
-        Text(text = "abed")
+        Text(text = i.name)
     }
 }

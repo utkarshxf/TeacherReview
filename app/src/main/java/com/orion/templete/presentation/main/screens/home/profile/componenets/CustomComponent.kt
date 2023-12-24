@@ -117,7 +117,6 @@ fun DrawScope.backgroundIndicator(
     componentSize: Size,
     indicatorColor: Color,
     indicatorStrokeWidth: Float,
-//    indicatorStokeCap: StrokeCap
 ) {
     drawArc(
         size = componentSize,

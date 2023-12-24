@@ -60,7 +60,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
-import com.orion.templete.Data.Model.BooksDTO
+import com.orion.templete.Data.Model.TeacherDTO
 import com.orion.templete.Data.Model.Review
 import com.orion.templete.R
 import com.orion.templete.presentation.main.screens.home.blogs.BlogScreenViewModel
@@ -69,7 +69,7 @@ import kotlin.math.max
 import kotlin.math.min
 
 @Composable
-fun SelectedBlogScreen(navigateToBlogs: () -> Unit = {}, addScreenData: BooksDTO?, goToReviewScreen: (List<Review>) -> Unit) {
+fun SelectedBlogScreen(navigateToBlogs: () -> Unit = {}, addScreenData: TeacherDTO?, goToReviewScreen: (List<Review>) -> Unit) {
     var scrollState = rememberLazyListState()
     Surface() {
         ContentText(scrollState = scrollState ,goToReviewScreen ,addScreenData )
@@ -84,7 +84,7 @@ fun SelectedBlogScreen(navigateToBlogs: () -> Unit = {}, addScreenData: BooksDTO
 fun ParallaxToolbar(
     scrollState: LazyListState,
     navigateToBlogs: () -> Unit,
-    addScreenData: BooksDTO?,
+    addScreenData: TeacherDTO?,
 ) {
     val AppBarCollapsedHeight = 56.dp
     val AppBarExpendedHeight = 400.dp
@@ -189,7 +189,7 @@ fun CircularButton(
 
 
 @Composable
-fun BookInformation(goToReviewScreen: (List<Review>) -> Unit, bookData: BooksDTO?)
+fun BookInformation(goToReviewScreen: (List<Review>) -> Unit, bookData: TeacherDTO?)
 {
         Spacer(modifier = Modifier.size(18.dp))
         AiIndicator(5)
@@ -220,7 +220,7 @@ fun AiIndicator(activeDays: Int) {
 }
 
 @Composable
-fun Reviews(goToReviewScreen: (List<Review>) -> Unit, bookData: BooksDTO?) {
+fun Reviews(goToReviewScreen: (List<Review>) -> Unit, bookData: TeacherDTO?) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -250,7 +250,7 @@ fun Reviews(goToReviewScreen: (List<Review>) -> Unit, bookData: BooksDTO?) {
 
 
 @Composable
-fun ReviewColoum(bookData: BooksDTO?) {
+fun ReviewColoum(bookData: TeacherDTO?) {
     Card(modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(12.dp) , colors = CardDefaults.cardColors(containerColor = Transparent)) {
         Spacer(modifier = Modifier.size(18.dp))
         TextBox(bookData)
@@ -258,8 +258,9 @@ fun ReviewColoum(bookData: BooksDTO?) {
 }
 
 @Composable
-fun TextBox(bookData: BooksDTO?,bookViewModel: BlogScreenViewModel = hiltViewModel() ) {
+fun TextBox(bookData: TeacherDTO?, bookViewModel: BlogScreenViewModel = hiltViewModel() ) {
     var text by rememberSaveable { mutableStateOf("") }
+    val res = bookViewModel.BooksList.value
     OutlinedTextField(
         value = text,
         onValueChange = { text = it },
@@ -274,14 +275,13 @@ fun TextBox(bookData: BooksDTO?,bookViewModel: BlogScreenViewModel = hiltViewMod
     Box(modifier = Modifier.fillMaxWidth() , Alignment.Center ){
         Button(onClick = {
             val TempReview= Review("null" , "null"  , "5" ,text , "null" , false)
-//            bookData?.review?.plus(TempReview)
             bookData?.review = bookData?.review.orEmpty() + TempReview
             if (bookData != null) {
-
-                bookViewModel.updateBooks("65816794cee17469e5886f14", bookData)
-                var state = bookViewModel.UpdatedBook.value
-                Log.v("qwerty" , state.toString())
-
+                bookViewModel.updateBooks("6587bb435181e428b6d6568f", bookData)
+            }
+            res?.let {
+                Log.v("qwerty" , it.toString())
+                text = ""
             }
 
         } , shape = RoundedCornerShape(6.dp)) {
@@ -292,7 +292,7 @@ fun TextBox(bookData: BooksDTO?,bookViewModel: BlogScreenViewModel = hiltViewMod
 }
 
 @Composable
-fun ContentText(scrollState: LazyListState, goToReviewScreen: (List<Review>) -> Unit, addScreenData: BooksDTO?) {
+fun ContentText(scrollState: LazyListState, goToReviewScreen: (List<Review>) -> Unit, addScreenData: TeacherDTO?) {
     val AppBarExpendedHeight = 400.dp
     LazyColumn(
         contentPadding = PaddingValues(top = AppBarExpendedHeight),

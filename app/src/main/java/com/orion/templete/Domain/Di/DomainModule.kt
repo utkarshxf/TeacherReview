@@ -1,9 +1,9 @@
 package com.orion.templete.Domain.Di
 
 import com.orion.templete.Data.Network.ApiService
-import com.orion.templete.Data.Repository.GetBlogImpl
+import com.orion.templete.Data.Repository.TeacherImpl
 import com.orion.templete.Data.Repository.GetUserImpl
-import com.orion.templete.Domain.Repository.GetBlogRepo
+import com.orion.templete.Domain.Repository.TeacherRepo
 import com.orion.templete.Domain.Repository.GetUserRepo
 import dagger.Module
 import dagger.Provides
@@ -19,8 +19,8 @@ object DomainModule {
     }
 
     @Provides
-    fun provideBlogs(apiService: ApiService): GetBlogRepo {
-        return GetBlogImpl(apiService = apiService)
+    fun provideTeacherRepo(apiService: ApiService): TeacherRepo {
+        return TeacherImpl(apiService = apiService)
     }
 
 }

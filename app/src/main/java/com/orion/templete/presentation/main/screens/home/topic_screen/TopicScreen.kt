@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -25,7 +24,6 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.orion.templete.Data.Model.TopicDTOItem
 import com.orion.templete.Domain.use_case.Screen
 import com.orion.templete.presentation.main.screens.home.mySearchBar
 
@@ -35,24 +33,26 @@ import com.orion.templete.presentation.main.screens.home.mySearchBar
 fun TopicScreen(
     nav: NavController
 ) {
-    var dummyData = generateDummyData()
-    Column() {
-        mySearchBar()
-        LazyColumn {
-            items(dummyData){
-                TopicsCard(it, nav)
-            }
-        }
-    }
+//    var dummyData = generateDummyData()
+//    Column {
+//        mySearchBar()
+//        LazyColumn {
+//            items(dummyData) {
+////                TopicsCard(it, nav)
+//            }
+//        }
+//    }
 }
 
 @Composable
 fun TopicsCard(
-    blogCardData: TopicDTOItem,
+//    blogCardData: TopicDTOItem,
     nav: NavController,
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth().height(100.dp)
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(100.dp)
             .padding(horizontal = 6.dp)
             .padding(vertical = 12.dp)
             .border(BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(0.2f)), shape = RoundedCornerShape(12.dp))
@@ -68,15 +68,15 @@ fun TopicsCard(
             {
                 Spacer(modifier = Modifier.height(12.dp))
 
-                Text(
-                    text = blogCardData.name,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(horizontal = 12.dp),
-                )
-                Text(
-                    text = blogCardData.about,
-                    modifier = Modifier.padding(horizontal = 12.dp), fontStyle = FontStyle.Italic
-                )
+//                Text(
+//                    text = blogCardData.name,
+//                    fontWeight = FontWeight.Bold,
+//                    modifier = Modifier.padding(horizontal = 12.dp),
+//                )
+//                Text(
+//                    text = blogCardData.about,
+//                    modifier = Modifier.padding(horizontal = 12.dp), fontStyle = FontStyle.Italic
+//                )
             }
 
         }

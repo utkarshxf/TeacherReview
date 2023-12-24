@@ -1,35 +1,31 @@
 package com.orion.templete.Data.Network
 
-import com.orion.templete.Data.Model.BookListDTO
-import com.orion.templete.Data.Model.BooksDTO
 import com.orion.templete.Data.Model.PersonDTO
-import com.orion.templete.Data.Model.TopicDTOItem
-import retrofit2.Retrofit
+import com.orion.templete.Data.Model.TeacherDTO
+import com.orion.templete.Data.Model.TeacherListDTO
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.PUT
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ApiService {
-//    after ? everything represent query
+    //    after ? everything represent query
     @GET("books/")
     suspend fun getAllBooks(
-    //we have to pass the query
-    ):retrofit2.Response<BookListDTO>
-    @PUT("books/")
+    ): retrofit2.Response<TeacherListDTO>
+
+    @PUT("books/{id}")
     suspend fun sendReview(
-        @Body book: BooksDTO,
-        @Query("key") key: String = "65816794cee17469e5886f14",
-    ): retrofit2.Response<BooksDTO>
+        @Path("id") id: String = "6587bb435181e428b6d6568f", // Change this line
+        @Body book: TeacherDTO
+    ): retrofit2.Response<TeacherDTO>
+
 
     @GET("person/id/")
     suspend fun currentUser(
-        @Query("personId") personId:String = "abcd",
-    ):retrofit2.Response<PersonDTO>
+        @Query("personId") personId: String = "string",
+    ): retrofit2.Response<PersonDTO>
 
-    @GET("topics/")
-    suspend fun getAllTopics(
-        //we have to pass the query
-    ):retrofit2.Response<TopicDTOItem>
 
 }

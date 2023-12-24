@@ -90,10 +90,10 @@ fun DailyPassCard() {
             )
             FeatureText(
                 R.drawable.icon_check,
-                stringResource(R.string.enjoy_a_free_workflow_everyday)
+                "one to one chat with experts"
             )
             FeatureText(
-                R.drawable.icon_check, stringResource(R.string.enjoy_a_free_workflow_everyday)
+                R.drawable.icon_check, ""
             )
             Text(
                 text = "More Details",

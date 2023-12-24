@@ -4,13 +4,11 @@ import android.content.Context
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
-import com.orion.templete.Data.Model.BooksDTO
-import com.orion.templete.Data.Model.Review
+import com.orion.templete.Data.Model.TeacherDTO
 import com.orion.templete.R
 import com.orion.templete.presentation.main.screens.home.main.MainScreen
 import com.orion.templete.presentation.main.screens.home.subscription.SubscriptionScreen
 import com.orion.templete.presentation.main.screens.home.blogs.BlogScreen
-import com.orion.templete.presentation.main.screens.home.blogs.selected_blog.mints.MintsScreen
 
 typealias ComposableFun = @Composable () -> Unit
 @OptIn(ExperimentalMaterial3Api::class)
@@ -32,7 +30,7 @@ sealed class TabItem(val title: String, val screens: ComposableFun) {
 
     data class Blog(
         val scrollBehavior: TopAppBarScrollBehavior,
-        val navigateToSelectedBlog: (BooksDTO) -> Unit,
+        val navigateToSelectedBlog: (TeacherDTO) -> Unit,
         val context:Context,
     ) : TabItem(title = context.getString(R.string.explore), screens = { BlogScreen(scrollBehavior, navigateToSelectedBlog ) })
 }

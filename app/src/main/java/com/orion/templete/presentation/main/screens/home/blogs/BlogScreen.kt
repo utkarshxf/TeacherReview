@@ -38,8 +38,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
-import com.orion.templete.Data.Model.BookListDTO
-import com.orion.templete.Data.Model.BooksDTO
+import com.orion.templete.Data.Model.TeacherListDTO
+import com.orion.templete.Data.Model.TeacherDTO
 import com.orion.templete.R
 import com.orion.templete.presentation.main.screens.home.mySearchBar
 
@@ -47,7 +47,7 @@ import com.orion.templete.presentation.main.screens.home.mySearchBar
 @Composable
 fun BlogScreen(
     scrollBehavior: TopAppBarScrollBehavior,
-    navigateToSelectedBlog: (BooksDTO) -> Unit = {},
+    navigateToSelectedBlog: (TeacherDTO) -> Unit = {},
     blogViewModel: BlogScreenViewModel = hiltViewModel()
 )
 {
@@ -71,7 +71,7 @@ fun BlogScreen(
 }
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RenderBlogScreen(scrollBehavior: TopAppBarScrollBehavior, data: BookListDTO , navigateToSelectedBlog: (BooksDTO) -> Unit = {})
+fun RenderBlogScreen(scrollBehavior: TopAppBarScrollBehavior, data: TeacherListDTO, navigateToSelectedBlog: (TeacherDTO) -> Unit = {})
 {
         Column(Modifier
             .nestedScroll(scrollBehavior.nestedScrollConnection)) {
@@ -87,8 +87,8 @@ fun RenderBlogScreen(scrollBehavior: TopAppBarScrollBehavior, data: BookListDTO 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun  BlogCard(
-    blogCardData: BooksDTO,
-    navigateToSelectedBlog: (BooksDTO) -> Unit,
+    blogCardData: TeacherDTO,
+    navigateToSelectedBlog: (TeacherDTO) -> Unit,
 ) {
     Row(
         modifier = Modifier

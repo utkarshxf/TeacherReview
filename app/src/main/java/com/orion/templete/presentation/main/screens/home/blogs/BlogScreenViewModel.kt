@@ -4,8 +4,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.orion.newsapp.util.Resource
-import com.orion.templete.Data.Model.BooksDTO
-import com.orion.templete.Domain.use_case.GetBlogUseCase
+import com.orion.templete.Data.Model.TeacherDTO
+import com.orion.templete.Domain.use_case.TeacherUseCase
 import com.orion.templete.util.stateholder.BlogsStateHolder
 import com.orion.templete.util.stateholder.bookUpdatedValue
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @HiltViewModel
-class BlogScreenViewModel @Inject constructor(private val getBlogUseCase: GetBlogUseCase):
+class BlogScreenViewModel @Inject constructor(private val teacherUseCase: TeacherUseCase):
     ViewModel() {
     val BooksList = mutableStateOf(BlogsStateHolder())
     val UpdatedBook = mutableStateOf(bookUpdatedValue())
@@ -24,7 +24,7 @@ class BlogScreenViewModel @Inject constructor(private val getBlogUseCase: GetBlo
 
 
     fun getBlogs(){
-        getBlogUseCase().onEach {
+        teacherUseCase().onEach {
 
             when(it){
                 is Resource.Loading->{
@@ -42,9 +42,9 @@ class BlogScreenViewModel @Inject constructor(private val getBlogUseCase: GetBlo
 
         }.launchIn(viewModelScope)
     }
-    fun updateBooks(Key : String , updatedBook : BooksDTO)
+    fun updateBooks(Key : String , updatedBook : TeacherDTO)
     {
-        getBlogUseCase(Key , updatedBook).onEach {
+        teacherUseCase(Key , updatedBook).onEach {
             when(it){
                 is Resource.Loading->{
                     UpdatedBook.value = bookUpdatedValue(isLoading = true)

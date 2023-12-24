@@ -17,6 +17,6 @@ object DataModule {
         return Retrofit.Builder().baseUrl("http://10.0.2.2:8080/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-            .create(ApiService::class.java) //we are genertaing impl of api service by retrofit.
+            .create(ApiService::class.java)
     }
 }

@@ -1,17 +1,17 @@
 package com.orion.templete.util.stateholder
 
-import com.orion.templete.Data.Model.BookListDTO
-import com.orion.templete.Data.Model.BooksDTO
+import com.orion.templete.Data.Model.TeacherListDTO
+import com.orion.templete.Data.Model.TeacherDTO
 
 data class BlogsStateHolder(
     val isLoading: Boolean = false,
-    val data: BookListDTO? = null,
+    val data: TeacherListDTO? = null,
     val error: String = ""
 )
 
 data class bookUpdatedValue(
     val isLoading: Boolean = false,
-    val data: BooksDTO? = null,
+    val data: TeacherDTO? = null,
     val error: String = ""
 )
 

@@ -1,8 +1,6 @@
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,6 +20,7 @@ import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -31,21 +30,14 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Color.Companion.DarkGray
 import androidx.compose.ui.graphics.Color.Companion.Transparent
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.graphics.graphicsLayer
@@ -59,23 +51,37 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
-import com.orion.templete.Data.Model.TeacherDTO
 import com.orion.templete.Data.Model.Review
+import com.orion.templete.Data.Model.TeacherDTO
 import com.orion.templete.R
-import com.orion.templete.presentation.main.screens.home.teachers_list.TeachersListScreenViewModel
+import com.orion.templete.presentation.main.screens.thought.common.PersonDetails
 import com.orion.templete.presentation.ui.theme.TempleteTheme
 import kotlin.math.max
 import kotlin.math.min
 
 @Composable
-fun SelectedBlogScreen(navigateToBlogs: () -> Unit = {}, addScreenData: TeacherDTO?, goToReviewScreen: (List<Review>) -> Unit) {
+fun SelectedBlogScreen(
+    navigateToBlogs: () -> Unit = {},
+    addScreenData: TeacherDTO?,
+    goToReviewScreen: (TeacherDTO?) -> Unit
+) {
     var scrollState = rememberLazyListState()
-    Surface() {
-        ContentText(scrollState = scrollState ,goToReviewScreen ,addScreenData )
-        ParallaxToolbar(scrollState = scrollState , navigateToBlogs = navigateToBlogs,addScreenData)
+    Surface {
+        ContentText(scrollState = scrollState, addScreenData)
+        Box(modifier = Modifier.fillMaxSize())
+        {
+            ParallaxToolbar(scrollState = scrollState, navigateToBlogs = navigateToBlogs, addScreenData)
+            Button(onClick = { goToReviewScreen(addScreenData) },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(12.dp)
+                    .align(Alignment.BottomCenter),
+                shape = RoundedCornerShape(12.dp)) {
+                Text(text = "Add Your Review")
+            }
+        }
     }
 
 }
@@ -143,7 +149,7 @@ fun ParallaxToolbar(
                 Text(
                     text = addScreenData!!.name,
                     fontSize = 26.sp,
-                    fontWeight = FontWeight.Bold,
+                    fontWeight = Bold,
                     modifier = Modifier
                         .padding(horizontal = (16 + 28 * offsetprogress).dp)
                         .scale(1f - 0.25f * offsetprogress)
@@ -166,12 +172,13 @@ fun ParallaxToolbar(
         CircularButton(R.drawable.ic_favorite)
     }
 }
+
 @Composable
 fun CircularButton(
     @DrawableRes iconResource: Int,
     color: Color = MaterialTheme.colorScheme.onSurface,
     elevation: ButtonElevation? = ButtonDefaults.buttonElevation(),
-    onClick:()->Unit={}
+    onClick: () -> Unit = {}
 ) {
 
     Button(
@@ -185,140 +192,12 @@ fun CircularButton(
             .height(38.dp)
 
     ) {
-        Icon(painterResource(id = iconResource), contentDescription = null , tint = MaterialTheme.colorScheme.outline)
-    }
-}
-
-
-@Composable
-fun BookInformation(goToReviewScreen: (List<Review>) -> Unit, bookData: TeacherDTO?)
-{
-        Spacer(modifier = Modifier.size(18.dp))
-        AiIndicator(5)
-        Text(text = "Reviews", fontWeight = Bold)
-        Spacer(modifier = Modifier.size(18.dp))
-        Reviews(goToReviewScreen , bookData)
-        Spacer(modifier = Modifier.size(18.dp))
-        Text(text = "Write Your Review", fontWeight = FontWeight.Bold)
-        Spacer(modifier = Modifier.size(18.dp))
-        ReviewColoum(bookData)
-}
-@Composable
-fun AiIndicator(activeDays: Int) {
-    Text(text = stringResource(R.string.activity), fontWeight = FontWeight.Bold)
-    Row(
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        CustomComponent(
-            smallText = stringResource(R.string.completed),
-            indicatorValue = activeDays,
-            maxIndicatorValue = 30,
-            bigTextSuffix = stringResource(R.string.days)
-        )
-        CustomComponent(smallText = stringResource(R.string.liked_by), indicatorValue = 85)
+        Icon(painterResource(id = iconResource), contentDescription = null, tint = MaterialTheme.colorScheme.outline)
     }
 }
 
 @Composable
-fun Reviews(goToReviewScreen: (List<Review>) -> Unit, bookData: TeacherDTO?) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 12.dp, vertical = 8.dp),
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        Column() {
-
-            Text("recipe.reviews", color = DarkGray)
-        }
-        Button(onClick = { goToReviewScreen(bookData!!.review) }, elevation = null, colors = ButtonDefaults.buttonColors(
-            containerColor = Transparent,
-        )) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(text = "See all")
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_arrow_right),
-                    contentDescription = null
-                )
-
-
-            }
-
-        }
-    }
-}
-
-
-@Composable
-fun ReviewColoum(bookData: TeacherDTO?) {
-    Card(modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(12.dp) , colors = CardDefaults.cardColors(containerColor = Transparent)) {
-        Spacer(modifier = Modifier.size(18.dp))
-        ReviewSection(bookData)
-    }
-}
-
-@Composable
-fun ReviewSection(bookData: TeacherDTO?, bookViewModel: TeachersListScreenViewModel = hiltViewModel() ) {
-    var text by rememberSaveable { mutableStateOf("") }
-    var selectedStars by remember { mutableStateOf(0) }
-    val res = bookViewModel.TeacherList.value
-    val TempReview= Review("null" , "null"  , selectedStars ,text , "null" , false)
-    OutlinedTextField(
-        value = text,
-        onValueChange = { text = it },
-        singleLine = false,
-        placeholder = { Text(color = MaterialTheme.colorScheme.outline,text = "Start typing here ...")},
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(300.dp)
-            .padding(horizontal = 12.dp),
-    )
-    Spacer(modifier = Modifier.height(12.dp))
-    Text(text = "Give Your Rating", fontWeight = FontWeight.Bold)
-
-    Box(contentAlignment = Alignment.Center , modifier = Modifier.fillMaxWidth()){
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(12.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .padding(12.dp)
-        ) {
-            repeat(5) { index ->
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_star),
-                    contentDescription = null,
-                    tint = if (index < selectedStars) MaterialTheme.colorScheme.primary else Color.Gray,
-                    modifier = Modifier
-                        .size(45.dp)
-                        .clickable {
-                            selectedStars = index + 1
-                        }
-                )
-            }
-        }
-    }
-    Box(modifier = Modifier.fillMaxWidth() , Alignment.Center ){
-        Button(onClick = {
-            bookData?.review = bookData?.review.orEmpty() + TempReview
-            if (bookData != null) {
-                bookViewModel.updateBooks("string", bookData)
-            }
-            res?.let {
-                Log.v("qwerty" , it.toString())
-                text = ""
-                selectedStars = 0
-            }
-
-        } , shape = RoundedCornerShape(6.dp)) {
-            Text(text = "Share My Review")
-        }
-    }
-    Spacer(modifier = Modifier.height(12.dp))
-}
-@Composable
-fun ContentText(scrollState: LazyListState, goToReviewScreen: (List<Review>) -> Unit, addScreenData: TeacherDTO?) {
+fun ContentText(scrollState: LazyListState, addScreenData: TeacherDTO?) {
     val AppBarExpendedHeight = 400.dp
     LazyColumn(
         contentPadding = PaddingValues(top = AppBarExpendedHeight),
@@ -326,16 +205,14 @@ fun ContentText(scrollState: LazyListState, goToReviewScreen: (List<Review>) -> 
 
     ) {
         item {
-            Column(modifier = Modifier.padding(12.dp)){
+            Column(modifier = Modifier.padding(12.dp)) {
                 if (addScreenData != null) {
-                    Text(text =  addScreenData.about)
-                }
-                else
-                {
+                    Text(text = addScreenData.about)
+                } else {
                     Text(text = "nothing about is present")
                 }
                 Spacer(modifier = Modifier.size(18.dp))
-                BookInformation(goToReviewScreen, addScreenData)
+                BookInformation(addScreenData)
             }
 
         }
@@ -343,10 +220,70 @@ fun ContentText(scrollState: LazyListState, goToReviewScreen: (List<Review>) -> 
 }
 
 
+@Composable
+fun BookInformation(bookData: TeacherDTO?) {
+    Spacer(modifier = Modifier.size(18.dp))
+    Indicator(5)
+    Text(text = "Reviews", fontWeight = Bold)
+    Spacer(modifier = Modifier.size(18.dp))
+    bookData?.review.let {
+        AllReview(bookData!!.review)
+    }
+    Spacer(modifier = Modifier.size(32.dp))
+}
+
+@Composable
+fun Indicator(activeDays: Int) {
+    Text(text = stringResource(R.string.activity), fontWeight = Bold)
+    Row(
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        CustomComponent(
+            smallText = "Teaching",
+            indicatorValue = activeDays,
+            maxIndicatorValue = 30,
+            bigTextSuffix = "Poor"
+        )
+        CustomComponent(smallText = "Internal", indicatorValue = 85, bigTextSuffix = "Excellent")
+    }
+}
+
+@Composable
+fun AllReview(data: List<Review>) {
+    LazyColumn(modifier = Modifier
+        .fillMaxWidth()
+        .height(500.dp)) {
+        items(data) {
+            ReviewCard(it)
+            Spacer(modifier = Modifier.height(12.dp))
+        }
+    }
+
+}
+
+@Composable
+fun ReviewCard(review: Review) {
+    val modifier = Modifier
+        .fillMaxWidth()
+        .padding(horizontal = 12.dp)
+    Card {
+        Spacer(modifier = modifier.height(12.dp))
+        PersonDetails(modifier, review.userId, review.bookId, R.drawable.avatar)
+        Spacer(modifier = modifier.height(12.dp))
+        Text(
+            text = review.reviewText,
+            modifier = modifier
+        )
+        Spacer(modifier = modifier.height(12.dp))
+    }
+}
+
 @Preview
 @Composable
 fun m() {
-    TempleteTheme() {
+    TempleteTheme {
 //        SelectedBlogScreen(addScreenData = addScreenData)
     }
 }

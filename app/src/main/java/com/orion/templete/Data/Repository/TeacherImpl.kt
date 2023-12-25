@@ -16,6 +16,12 @@ class TeacherImpl @Inject constructor(private val apiService: ApiService) :
         }
         return Response
     }
+    override suspend fun getTeacherByName(name:String): TeacherListDTO {
+        val Response = safeApiRequest {
+            apiService.searchByName(name)
+        }
+        return Response
+    }
 
     override suspend fun updateTeacher(key: String, updatedReviewBook: TeacherDTO): TeacherDTO {
         val Response = safeApiRequest {

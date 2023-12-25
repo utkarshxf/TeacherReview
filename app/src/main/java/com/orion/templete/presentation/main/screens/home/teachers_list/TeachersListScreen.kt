@@ -41,7 +41,6 @@ import com.bumptech.glide.integration.compose.GlideImage
 import com.orion.templete.Data.Model.TeacherListDTO
 import com.orion.templete.Data.Model.TeacherDTO
 import com.orion.templete.R
-import com.orion.templete.presentation.main.screens.home.mySearchBar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -71,16 +70,16 @@ fun TeacherListScreen(
 }
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RenderBlogScreen(scrollBehavior: TopAppBarScrollBehavior, data: TeacherListDTO, navigateToSelectedBlog: (TeacherDTO) -> Unit = {})
+fun RenderBlogScreen(scrollBehavior: TopAppBarScrollBehavior, data: TeacherListDTO, navigateToSelectedTeacher: (TeacherDTO) -> Unit = {})
 {
         Column(Modifier
             .nestedScroll(scrollBehavior.nestedScrollConnection)) {
-            mySearchBar()
+            MySearchBar(navigateToSelectedTeacher)
             LazyColumn() {
                 items(data) { blogCardData ->
-                    BlogCard( blogCardData, navigateToSelectedBlog)
+                    BlogCard( blogCardData, navigateToSelectedTeacher)
                 }
-        }
+            }
     }
 }
 
@@ -88,7 +87,7 @@ fun RenderBlogScreen(scrollBehavior: TopAppBarScrollBehavior, data: TeacherListD
 @Composable
 fun  BlogCard(
     blogCardData: TeacherDTO,
-    navigateToSelectedBlog: (TeacherDTO) -> Unit,
+    navigateToSelectedTeacher: (TeacherDTO) -> Unit,
 ) {
     Row(
         modifier = Modifier
@@ -97,7 +96,7 @@ fun  BlogCard(
             .padding(vertical = 12.dp)
             .border(BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(0.2f)), shape = RoundedCornerShape(12.dp))
             .clip(RoundedCornerShape(12.dp))
-            .clickable { navigateToSelectedBlog(blogCardData) },
+            .clickable { navigateToSelectedTeacher(blogCardData) },
     ) {
         Box(
             modifier = Modifier
@@ -171,7 +170,7 @@ fun Rating(value:Int) {
     Row(horizontalArrangement = Arrangement.SpaceBetween ,
         verticalAlignment = Alignment.CenterVertically , modifier = Modifier.padding(12.dp))
     {
-        for (i in 1..value) {
+        repeat(value) {
             Icon(painter = painterResource(id = R.drawable.ic_star), contentDescription = null , tint = MaterialTheme.colorScheme.primary , modifier = Modifier.size(28.dp))
         }
     }

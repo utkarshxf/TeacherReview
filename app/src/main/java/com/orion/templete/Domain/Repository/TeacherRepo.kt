@@ -6,7 +6,7 @@ import com.orion.templete.Data.Model.TeacherDTO
 interface TeacherRepo {
 
     suspend fun getTeacher(): TeacherListDTO
-
+    suspend fun getTeacherByName(name:String):TeacherListDTO
     suspend fun updateTeacher(key : String, updatedReviewBook : TeacherDTO):TeacherDTO
 
 }

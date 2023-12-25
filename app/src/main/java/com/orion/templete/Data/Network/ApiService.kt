@@ -15,17 +15,23 @@ interface ApiService {
     suspend fun getAllBooks(
     ): retrofit2.Response<TeacherListDTO>
 
+    @GET("books/name")
+    suspend fun searchByName(
+        @Query("name") name:String
+    ):retrofit2.Response<TeacherListDTO>
+
     @PUT("books/{id}")
     suspend fun sendReview(
-        @Path("id") id: String = "6587bb435181e428b6d6568f", // Change this line
+        @Path("id") id: String , // Change this line
         @Body book: TeacherDTO
     ): retrofit2.Response<TeacherDTO>
-
 
     @GET("person/id/")
     suspend fun currentUser(
         @Query("personId") personId: String = "string",
     ): retrofit2.Response<PersonDTO>
+
+
 
 
 }

@@ -17,6 +17,7 @@ import javax.inject.Inject
 class TeachersListScreenViewModel @Inject constructor(private val teacherUseCase: TeacherUseCase):
     ViewModel() {
     val TeacherList = mutableStateOf(TeacherListStateHolder())
+    val SearchedteacherList = mutableStateOf(TeacherListStateHolder())
     val UpdatedReview = mutableStateOf(ReviewUpdatedValue())
     init {
         getAllTeacher()
@@ -35,6 +36,25 @@ class TeachersListScreenViewModel @Inject constructor(private val teacherUseCase
                 }
                 is Resource.Error->{
                     TeacherList.value = TeacherListStateHolder(error = it.message.toString())
+                }
+
+                else -> {}
+            }
+
+        }.launchIn(viewModelScope)
+    }
+    fun getTeacherByName(name:String){
+        teacherUseCase(name).onEach {
+
+            when(it){
+                is Resource.Loading->{
+                    SearchedteacherList.value = TeacherListStateHolder(isLoading = true)
+                }
+                is Resource.Success->{
+                    SearchedteacherList.value = TeacherListStateHolder(data = it.data)
+                }
+                is Resource.Error->{
+                    SearchedteacherList.value = TeacherListStateHolder(error = it.message.toString())
                 }
 
                 else -> {}

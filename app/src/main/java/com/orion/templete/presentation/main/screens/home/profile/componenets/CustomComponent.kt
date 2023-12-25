@@ -36,10 +36,10 @@ fun CustomComponent(
     backgroundIndicatorStrokeWidth: Float = 50f,
     foregroundIndicatorColor: Color = MaterialTheme.colorScheme.primary,
     foregroundIndicatorStrokeWidth: Float = 50f,
-//    indicatorStrokeCap: StrokeCap = StrokeCap.Round,
+    indicatorStrokeCap: StrokeCap = StrokeCap.Round,
     bigTextFontSize: TextUnit = MaterialTheme.typography.bodyLarge.fontSize,
     bigTextColor: Color = MaterialTheme.colorScheme.onSurface,
-    bigTextSuffix: String = "%",
+    bigTextSuffix: String = "",
     smallText: String = stringResource(R.string.remaining),
     smallTextFontSize: TextUnit = MaterialTheme.typography.bodyMedium.fontSize,
     smallTextColor: Color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f)
@@ -176,7 +176,7 @@ fun EmbeddedElements(
         textAlign = TextAlign.Center
     )
     Text(
-        text = "$bigText ${bigTextSuffix.take(4)}",
+        text = bigTextSuffix,
         color = bigTextColor,
         fontSize = bigTextFontSize,
         textAlign = TextAlign.Center,

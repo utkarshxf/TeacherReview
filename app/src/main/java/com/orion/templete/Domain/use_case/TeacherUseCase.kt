@@ -20,6 +20,15 @@ class TeacherUseCase @Inject constructor(private val teacherRepo: TeacherRepo) {
         }
     }
 
+    operator fun invoke(name:String): Flow<Resource<TeacherListDTO>> = flow {
+        emit(Resource.Loading(""))
+        try {
+            emit(Resource.Success(teacherRepo.getTeacherByName(name)))
+        } catch (e: Exception) {
+            emit(Resource.Error(e.message))
+        }
+    }
+
     operator fun invoke(key: String, updatedReviewBook: TeacherDTO): Flow<Resource<TeacherDTO>> = flow {
         emit(Resource.Loading(""))
         try {

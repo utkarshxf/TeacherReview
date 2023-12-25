@@ -62,16 +62,6 @@ fun TopicsCard(
             Column(Modifier)
             {
                 Spacer(modifier = Modifier.height(12.dp))
-
-//                Text(
-//                    text = blogCardData.name,
-//                    fontWeight = FontWeight.Bold,
-//                    modifier = Modifier.padding(horizontal = 12.dp),
-//                )
-//                Text(
-//                    text = blogCardData.about,
-//                    modifier = Modifier.padding(horizontal = 12.dp), fontStyle = FontStyle.Italic
-//                )
             }
 
         }

@@ -79,7 +79,7 @@ fun SelectedBlogScreen(
                     .padding(12.dp)
                     .align(Alignment.BottomCenter),
                 shape = RoundedCornerShape(12.dp)) {
-                Text(text = "Add Your Review")
+                Text(text = "Add My Review")
             }
         }
     }

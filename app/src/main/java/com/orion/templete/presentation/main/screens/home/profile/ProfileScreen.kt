@@ -100,7 +100,7 @@ fun RenderMain(scrollBehavior: TopAppBarScrollBehavior, data: PersonDTO?) {
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(text = "Teacher Recommendation", fontWeight = FontWeight.Bold)
+                Text(text = "Best Teachers", fontWeight = FontWeight.Bold)
                 Card(
                     shape = RoundedCornerShape(12.dp),
                     colors = CardDefaults.cardColors(containerColor = Color.Transparent),

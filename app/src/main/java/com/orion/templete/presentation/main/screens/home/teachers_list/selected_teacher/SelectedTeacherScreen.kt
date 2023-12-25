@@ -2,6 +2,7 @@ import android.annotation.SuppressLint
 import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -36,6 +37,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -197,7 +199,7 @@ fun BookInformation(goToReviewScreen: (List<Review>) -> Unit, bookData: TeacherD
         Spacer(modifier = Modifier.size(18.dp))
         Reviews(goToReviewScreen , bookData)
         Spacer(modifier = Modifier.size(18.dp))
-        Text(text = "Write your Review", fontWeight = FontWeight.Bold)
+        Text(text = "Write Your Review", fontWeight = FontWeight.Bold)
         Spacer(modifier = Modifier.size(18.dp))
         ReviewColoum(bookData)
 }
@@ -253,14 +255,16 @@ fun Reviews(goToReviewScreen: (List<Review>) -> Unit, bookData: TeacherDTO?) {
 fun ReviewColoum(bookData: TeacherDTO?) {
     Card(modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(12.dp) , colors = CardDefaults.cardColors(containerColor = Transparent)) {
         Spacer(modifier = Modifier.size(18.dp))
-        TextBox(bookData)
+        ReviewSection(bookData)
     }
 }
 
 @Composable
-fun TextBox(bookData: TeacherDTO?, bookViewModel: TeachersListScreenViewModel = hiltViewModel() ) {
+fun ReviewSection(bookData: TeacherDTO?, bookViewModel: TeachersListScreenViewModel = hiltViewModel() ) {
     var text by rememberSaveable { mutableStateOf("") }
+    var selectedStars by remember { mutableStateOf(0) }
     val res = bookViewModel.TeacherList.value
+    val TempReview= Review("null" , "null"  , selectedStars ,text , "null" , false)
     OutlinedTextField(
         value = text,
         onValueChange = { text = it },
@@ -272,25 +276,47 @@ fun TextBox(bookData: TeacherDTO?, bookViewModel: TeachersListScreenViewModel = 
             .padding(horizontal = 12.dp),
     )
     Spacer(modifier = Modifier.height(12.dp))
+    Text(text = "Give Your Rating", fontWeight = FontWeight.Bold)
+
+    Box(contentAlignment = Alignment.Center , modifier = Modifier.fillMaxWidth()){
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .padding(12.dp)
+        ) {
+            repeat(5) { index ->
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_star),
+                    contentDescription = null,
+                    tint = if (index < selectedStars) MaterialTheme.colorScheme.primary else Color.Gray,
+                    modifier = Modifier
+                        .size(45.dp)
+                        .clickable {
+                            selectedStars = index + 1
+                        }
+                )
+            }
+        }
+    }
     Box(modifier = Modifier.fillMaxWidth() , Alignment.Center ){
         Button(onClick = {
-            val TempReview= Review("null" , "null"  , "5" ,text , "null" , false)
             bookData?.review = bookData?.review.orEmpty() + TempReview
             if (bookData != null) {
-                bookViewModel.updateBooks("6587bb435181e428b6d6568f", bookData)
+                bookViewModel.updateBooks("string", bookData)
             }
             res?.let {
                 Log.v("qwerty" , it.toString())
                 text = ""
+                selectedStars = 0
             }
 
         } , shape = RoundedCornerShape(6.dp)) {
-            Text(text = "Share Review")
+            Text(text = "Share My Review")
         }
     }
     Spacer(modifier = Modifier.height(12.dp))
 }
-
 @Composable
 fun ContentText(scrollState: LazyListState, goToReviewScreen: (List<Review>) -> Unit, addScreenData: TeacherDTO?) {
     val AppBarExpendedHeight = 400.dp

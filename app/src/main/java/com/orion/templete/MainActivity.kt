@@ -21,7 +21,7 @@ import com.orion.templete.presentation.main.screens.course_selection.YearPage
 import com.orion.templete.presentation.main.screens.course_selection.selectionCourse
 import com.orion.templete.presentation.main.screens.profile.ProfileScreen
 import com.orion.templete.presentation.main.screens.setting.SettingScreen
-import com.orion.templete.presentation.main.screens.home.teachers_list.selected_teacher.review.MintsScreen
+import com.orion.templete.presentation.main.screens.home.teachers_list.selected_teacher.review.ReviewScreen
 import com.orion.templete.presentation.main.screens.home.topic_screen.TopicScreen
 import com.orion.templete.presentation.splash.SplashScreen
 import com.orion.templete.presentation.ui.theme.TempleteTheme
@@ -73,7 +73,7 @@ class MainActivity : ComponentActivity() {
                                     ?.get<List<Review>>("review_data")
                             if (ReviewScreen !=null)
                             {
-                                MintsScreen(ReviewScreen!!)
+                                ReviewScreen(ReviewScreen!!)
                             }
                         }
                         composable(route = Screen.Settings.route) {

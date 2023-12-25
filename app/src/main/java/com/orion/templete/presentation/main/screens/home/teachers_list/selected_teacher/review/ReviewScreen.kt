@@ -21,14 +21,14 @@ import com.orion.templete.presentation.ui.theme.TempleteTheme
 
 
 @Composable
-fun MintsScreen(data: List<Review>) {
+fun ReviewScreen(data: List<Review>) {
     val modifier = Modifier
         .fillMaxSize()
         .padding(horizontal = 12.dp)
         .height(12.dp)
     LazyColumn(modifier) {
         items(data) {
-            MintsCard(it)
+            ReviewCard(it)
             Spacer(modifier = modifier)
         }
     }
@@ -36,7 +36,7 @@ fun MintsScreen(data: List<Review>) {
 }
 
 @Composable
-fun MintsCard(review: Review) {
+fun ReviewCard(review: Review) {
     val modifier = Modifier
         .fillMaxWidth()
         .padding(horizontal = 12.dp)

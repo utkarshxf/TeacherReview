@@ -66,12 +66,12 @@ class MainActivity : ComponentActivity() {
                         }
                         composable(route = Screen.Reviews.route)
                         {
-                            val ReviewScreen =
+                            val reviewScreen =
                                 navController.previousBackStackEntry
                                     ?.savedStateHandle
                                     ?.get<TeacherDTO?>("add_data")
-                            if (ReviewScreen != null) {
-                                AddReviewScreen(ReviewScreen)
+                            if (reviewScreen != null) {
+                                AddReviewScreen(reviewScreen)
                             }
                         }
                         composable(route = Screen.Settings.route) {

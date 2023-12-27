@@ -1,6 +1,7 @@
 package com.orion.templete.presentation.main.screens.home.teachers_list.selected_teacher.add_review
 
 import android.content.res.Configuration
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -45,6 +46,7 @@ import com.orion.templete.Data.Model.TeacherDTO
 import com.orion.templete.R
 import com.orion.templete.presentation.main.screens.home.teachers_list.TeachersListScreenViewModel
 import com.orion.templete.presentation.ui.theme.TempleteTheme
+import java.util.Date
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -78,7 +80,7 @@ fun ReviewSection(bookData: TeacherDTO?, bookViewModel: TeachersListScreenViewMo
     var internalMarksRate by remember { mutableStateOf(0) }
     var externalMarksRate by remember { mutableStateOf(0) }
     val res = bookViewModel.TeacherList.value
-    val TempReview = Review("null", "null", teachingRate, text, "null", false)
+    val TempReview = Review(bookId = "658bb1bde1383f60861a4daa", reviewStar = teachingRate, teachingStyle = teachingRate , internalMarks = internalMarksRate , externalMark = externalMarksRate , reviewText = text, userId = "null", verified = false)
     Text(text = "Teaching Style", fontWeight = FontWeight.Bold)
     Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxWidth()) {
         Row(
@@ -161,14 +163,18 @@ fun ReviewSection(bookData: TeacherDTO?, bookViewModel: TeachersListScreenViewMo
         Button(onClick = {
             bookData?.review = bookData?.review.orEmpty() + TempReview
             if (bookData != null) {
-                bookViewModel.updateBooks("string", bookData)
+                bookViewModel.updateBooks("658bb1bde1383f60861a4daa", bookData)
             }
-            res.let {
+            Log.v("qwerty",res.toString())
+            res.data.let {
                 Toast.makeText(context,"Reviews will be reviewed by our review team\uD83E\uDEE3", Toast.LENGTH_SHORT).show()
                 text = ""
                 teachingRate = 0
                 internalMarksRate=0
                 externalMarksRate =0
+            }
+            res.error.let {
+                Toast.makeText(context,it, Toast.LENGTH_SHORT).show()
             }
 
         }, shape = RoundedCornerShape(6.dp)) {

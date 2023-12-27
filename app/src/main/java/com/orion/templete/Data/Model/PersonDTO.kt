@@ -6,5 +6,7 @@ data class PersonDTO(
     val lastName: String,
     val personId: String,
     val type: String,
-    val year: Int
+    val year: Int,
+    val totalReviews:Int,
+    val completedProfile:Int,
 )

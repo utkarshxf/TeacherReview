@@ -57,7 +57,8 @@ fun MainScreen(
         Scaffold(topBar = {
             CenterAlignedTopAppBar(title = { Text(text = stringResource(R.string.app_name)) },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+//                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+//                    titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer
                 ),
                 scrollBehavior = scrollBehavior,
                 navigationIcon = {

@@ -33,13 +33,13 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
-import com.orion.templete.Data.Model.TeacherListDTO
 import com.orion.templete.Data.Model.TeacherDTO
+import com.orion.templete.Data.Model.TeacherListDTO
 import com.orion.templete.R
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -48,59 +48,67 @@ fun TeacherListScreen(
     scrollBehavior: TopAppBarScrollBehavior,
     navigateToSelectedBlog: (TeacherDTO) -> Unit = {},
     blogViewModel: TeachersListScreenViewModel = hiltViewModel()
-)
-{
+) {
     val res = blogViewModel.TeacherList.value
-
-    if (res.isLoading){
-        Box(modifier = Modifier.fillMaxSize()){
+    if (res.isLoading) {
+        Box(modifier = Modifier.fillMaxSize()) {
             CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
 
         }
     }
-    if (res.error.isNotBlank()){
-        Box(modifier = Modifier.fillMaxSize()){
+    if (res.error.isNotBlank()) {
+        Box(modifier = Modifier.fillMaxSize()) {
             Text(text = res.error, modifier = Modifier.align(Alignment.Center))
         }
     }
 
     res.data?.let {
-        RenderBlogScreen(scrollBehavior , res.data ,navigateToSelectedBlog)
+        RenderBlogScreen(scrollBehavior, res.data, navigateToSelectedBlog)
     }
 }
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RenderBlogScreen(scrollBehavior: TopAppBarScrollBehavior, data: TeacherListDTO, navigateToSelectedTeacher: (TeacherDTO) -> Unit = {})
-{
-        Column(Modifier
-            .nestedScroll(scrollBehavior.nestedScrollConnection)) {
-            MySearchBar(navigateToSelectedTeacher)
-            LazyColumn() {
-                items(data) { blogCardData ->
-                    BlogCard( blogCardData, navigateToSelectedTeacher)
-                }
+fun RenderBlogScreen(
+    scrollBehavior: TopAppBarScrollBehavior,
+    data: TeacherListDTO,
+    navigateToSelectedTeacher: (TeacherDTO) -> Unit = {}
+) {
+    Column(
+        Modifier
+            .nestedScroll(scrollBehavior.nestedScrollConnection)
+    ) {
+        MySearchBar(navigateToSelectedTeacher)
+        LazyColumn {
+            items(data) { blogCardData ->
+                BlogCard(blogCardData, navigateToSelectedTeacher)
             }
+        }
     }
 }
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-fun  BlogCard(
+fun BlogCard(
     blogCardData: TeacherDTO,
     navigateToSelectedTeacher: (TeacherDTO) -> Unit,
+    blogViewModel: TeachersListScreenViewModel = hiltViewModel()
 ) {
     Row(
         modifier = Modifier
-            .height(250.dp)
+            .height(200.dp)
             .padding(horizontal = 6.dp)
             .padding(vertical = 12.dp)
-            .border(BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(0.2f)), shape = RoundedCornerShape(12.dp))
+            .border(
+                BorderStroke(1.dp, MaterialTheme.colorScheme.onSurface.copy(0.2f)),
+                shape = RoundedCornerShape(6.dp)
+            )
             .clip(RoundedCornerShape(12.dp))
             .clickable { navigateToSelectedTeacher(blogCardData) },
     ) {
         Box(
             modifier = Modifier
-                .padding(vertical = 12.dp)
+                .padding(12.dp)
                 .clip(RoundedCornerShape(6.dp))
                 .height(200.dp)
                 .width(150.dp)
@@ -113,22 +121,30 @@ fun  BlogCard(
                 modifier = Modifier.fillMaxSize()
             )
         }
-        Column(verticalArrangement = Arrangement.SpaceBetween , horizontalAlignment = Alignment.Start, modifier = Modifier.fillMaxHeight()) {
+        Column(
+            verticalArrangement = Arrangement.SpaceBetween,
+            horizontalAlignment = Alignment.Start,
+            modifier = Modifier.fillMaxHeight()
+        ) {
             Column(Modifier)
             {
                 Spacer(modifier = Modifier.height(12.dp))
 
                 Text(
                     text = blogCardData.name,
-                    fontWeight = FontWeight.Bold,
+                    style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier.padding(horizontal = 12.dp),
 //                     MaterialTheme.typography.labelMedium
                 )
                 Text(
                     text = blogCardData.about,
+                    maxLines = 2,
+                    style = MaterialTheme.typography.bodyMedium,
+                    overflow = TextOverflow.Ellipsis,
                     modifier = Modifier.padding(horizontal = 12.dp), fontStyle = FontStyle.Italic
                 )
-                Rating(2)
+                val ratingValue = blogViewModel.calculateOverallStarRating(blogCardData.review)
+                Rating(ratingValue)
             }
 
 
@@ -149,7 +165,8 @@ fun  BlogCard(
                     )
                     Spacer(modifier = Modifier.width(12.dp))
                     Text(
-                        text = "RS "+blogCardData.name.toString(),
+                        text = blogCardData.subject,
+                        style = MaterialTheme.typography.labelMedium,
                         color = MaterialTheme.colorScheme.primary
                     )
                 }
@@ -157,7 +174,7 @@ fun  BlogCard(
                     painter = painterResource(id = R.drawable.share_2),
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.outline,
-                    modifier = Modifier.size(28.dp)
+                    modifier = Modifier.size(18.dp)
                 )
             }
 
@@ -166,12 +183,21 @@ fun  BlogCard(
 }
 
 @Composable
-fun Rating(value:Int) {
-    Row(horizontalArrangement = Arrangement.SpaceBetween ,
-        verticalAlignment = Alignment.CenterVertically , modifier = Modifier.padding(12.dp))
+fun Rating(value: Int) {
+    Row(
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(12.dp)
+    )
     {
         repeat(value) {
-            Icon(painter = painterResource(id = R.drawable.ic_star), contentDescription = null , tint = MaterialTheme.colorScheme.primary , modifier = Modifier.size(28.dp))
+            Icon(
+                painter = painterResource(id = R.drawable.ic_star),
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.primary,
+                modifier = Modifier
+                    .padding(2.dp)
+                    .size(24.dp)
+            )
         }
     }
 }

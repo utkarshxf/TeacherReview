@@ -43,6 +43,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
@@ -203,13 +204,15 @@ fun TeacherRecommendation() {
         }
     }
 }
-
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun TeacherRCard(i: TeacherDTO) {
     Column(
-        horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.SpaceBetween,
-        modifier = Modifier.size(width = 150.dp , height = 230.dp)
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.SpaceBetween,
+        modifier = Modifier
+            .width(150.dp)
+            .height(200.dp) // Adjust the height to make it a rectangle
             .border(BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(0.2f)), shape = RoundedCornerShape(12.dp))
             .background(
                 color = Color.Transparent,
@@ -217,13 +220,24 @@ fun TeacherRCard(i: TeacherDTO) {
             )
             .padding(6.dp),
     ) {
+
         GlideImage(
             model = i.imageUrl, contentDescription = null,
             modifier = Modifier
-                .padding(12.dp)
-                .fillMaxWidth(),
+                .fillMaxSize()
+                .weight(1f),
             contentScale = ContentScale.Crop,
         )
-        Text(text = i.name)
+
+        Spacer(modifier = Modifier.height(4.dp)) // Add space between image and text
+
+        Text(
+            text = i.name,
+            modifier = Modifier
+                .fillMaxWidth() // Make the text take the entire width
+                .weight(0.2f),
+            style = MaterialTheme.typography.labelMedium,
+            textAlign = TextAlign.Center // Center the text
+        )
     }
 }

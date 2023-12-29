@@ -5,13 +5,13 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class TeacherDTO(
+    val _id: String,
     val about: String,
     val author: String,
-    val _id: String,
     val imageUrl: String,
+    val `internal`: Int,
     val name: String,
-    val subject:String,
-    val teaching:Int,
-    val internal:Int,
-    var review: List<Review>
+    var review: List<Review>,
+    val subject: String,
+    val teaching: Int
 ) : Parcelable

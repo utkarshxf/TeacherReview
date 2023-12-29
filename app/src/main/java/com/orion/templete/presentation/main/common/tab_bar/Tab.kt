@@ -30,13 +30,13 @@ fun Tabbar(
     val coroutineScope = rememberCoroutineScope()
     TabRow(
         selectedTabIndex = pagerState.currentPage,
-        containerColor = MaterialTheme.colorScheme.primaryContainer,
-        contentColor = MaterialTheme.colorScheme.onBackground,
+//        containerColor = MaterialTheme.colorScheme.primaryContainer,
+        contentColor = MaterialTheme.colorScheme.onSurface,
         indicator = { tabPositions ->
             TabRowDefaults.Indicator(
                 modifier = Modifier.pagerTabIndicatorOffset(pagerState , tabPositions),
                 height = 4.dp,
-                color = MaterialTheme.colorScheme.onBackground
+//                color = MaterialTheme.colorScheme.onPrimaryContainer
             )
         }
     ) {

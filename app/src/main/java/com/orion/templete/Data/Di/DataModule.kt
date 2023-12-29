@@ -14,7 +14,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 object DataModule {
     @Provides
     fun provideApiService(): ApiService {
-        return Retrofit.Builder().baseUrl("http://10.0.2.2:8080/")
+        return Retrofit.Builder().baseUrl("https://deployed-backend.onrender.com/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(ApiService::class.java)

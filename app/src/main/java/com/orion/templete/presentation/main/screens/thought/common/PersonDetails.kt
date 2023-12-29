@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -24,8 +25,8 @@ fun PersonDetails(modifier: Modifier, Name: String, Gmail: String, ProfileImage:
         Image(painterResource(id = ProfileImage), contentDescription = null)
         Spacer(modifier = Modifier.width(12.dp))
         Column(modifier.weight(1f)) {
-            Text(text = Name, fontWeight = FontWeight.Bold)
-            Text(text = Gmail)
+            Text(text = Name, fontWeight = FontWeight.Bold , style = MaterialTheme.typography.bodyMedium)
+            Text(text = Gmail , style = MaterialTheme.typography.labelMedium)
         }
     }
 }

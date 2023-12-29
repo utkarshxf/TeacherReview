@@ -29,6 +29,7 @@ import androidx.compose.material3.ButtonElevation
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -40,6 +41,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Transparent
 import androidx.compose.ui.graphics.Color.Companion.White
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
@@ -50,12 +52,13 @@ import androidx.compose.ui.text.font.FontWeight.Companion.Bold
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.orion.templete.Data.Model.Review
 import com.orion.templete.Data.Model.TeacherDTO
 import com.orion.templete.R
+import com.orion.templete.presentation.main.screens.home.teachers_list.TeachersListScreenViewModel
 import com.orion.templete.presentation.main.screens.thought.common.PersonDetails
 import com.orion.templete.presentation.ui.theme.TempleteTheme
 import kotlin.math.max
@@ -73,12 +76,14 @@ fun SelectedBlogScreen(
         Box(modifier = Modifier.fillMaxSize())
         {
             ParallaxToolbar(scrollState = scrollState, navigateToBlogs = navigateToBlogs, addScreenData)
-            Button(onClick = { goToReviewScreen(addScreenData) },
+            Button(
+                onClick = { goToReviewScreen(addScreenData) },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(12.dp)
                     .align(Alignment.BottomCenter),
-                shape = RoundedCornerShape(12.dp)) {
+                shape = RoundedCornerShape(12.dp)
+            ) {
                 Text(text = "Add My Review")
             }
         }
@@ -148,8 +153,7 @@ fun ParallaxToolbar(
             ) {
                 Text(
                     text = addScreenData!!.name,
-                    fontSize = 26.sp,
-                    fontWeight = Bold,
+                    style = MaterialTheme.typography.titleLarge,
                     modifier = Modifier
                         .padding(horizontal = (16 + 28 * offsetprogress).dp)
                         .scale(1f - 0.25f * offsetprogress)
@@ -170,6 +174,40 @@ fun ParallaxToolbar(
             navigateToBlogs()
         })
         CircularButton(R.drawable.ic_favorite)
+    }
+}
+
+@Composable
+fun TeacherTeachingProgressIndicator(
+    progress: Float,
+    modifier: Modifier = Modifier,
+    color: Color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f),
+    shape: Shape = RoundedCornerShape(50) // Adjust the corner radius as needed
+) {
+    var colorProgress = progress.toInt()
+    Text(text = "Teaching : "+ when {
+        colorProgress < 4 -> "Poor"
+        colorProgress < 8 -> "Good"
+        else -> "Excellent"
+    }
+        , fontWeight = Bold)
+    Spacer(modifier = Modifier.size(12.dp))
+    Surface(
+        modifier = modifier
+            .fillMaxWidth()
+            .height(16.dp),
+        shape = shape,
+        color = color
+    ) {
+        LinearProgressIndicator(
+            trackColor = MaterialTheme.colorScheme.background.copy(0.25f),
+            progress = 0.1f * progress,
+            modifier = Modifier.fillMaxSize(),
+            color = when {
+                colorProgress < 3 -> MaterialTheme.colorScheme.error
+                else -> MaterialTheme.colorScheme.primary
+            }
+        )
     }
 }
 
@@ -207,7 +245,7 @@ fun ContentText(scrollState: LazyListState, addScreenData: TeacherDTO?) {
         item {
             Column(modifier = Modifier.padding(12.dp)) {
                 if (addScreenData != null) {
-                    Text(text = addScreenData.about)
+                    Text(text = addScreenData.about, style = MaterialTheme.typography.bodyMedium)
                 } else {
                     Text(text = "nothing about is present")
                 }
@@ -221,19 +259,22 @@ fun ContentText(scrollState: LazyListState, addScreenData: TeacherDTO?) {
 
 
 @Composable
-fun BookInformation(bookData: TeacherDTO?) {
+fun BookInformation(bookData: TeacherDTO?,viewModel: TeachersListScreenViewModel = hiltViewModel()) {
+    val averageRating = viewModel.calculateAvarageTeaching(bookData!!.review)*2.0
+    val averageExternalMarks = viewModel.calculateAverageExternalMarks(bookData.review)*2
+    val averageInternalMarks = viewModel.calculateAverageInternalMarks(bookData.review)*2
     Spacer(modifier = Modifier.size(18.dp))
-    Indicator(5)
+    Indicator(averageExternalMarks.toInt(), averageInternalMarks.toInt())
+    TeacherTeachingProgressIndicator(averageRating.toFloat())
+    Spacer(modifier = Modifier.size(18.dp))
     Text(text = "Reviews", fontWeight = Bold)
     Spacer(modifier = Modifier.size(18.dp))
-    bookData?.review.let {
-        AllReview(bookData!!.review)
-    }
+    AllReview(bookData!!.review)
     Spacer(modifier = Modifier.size(32.dp))
 }
 
 @Composable
-fun Indicator(activeDays: Int) {
+fun Indicator(external: Int, internal: Int) {
     Text(text = stringResource(R.string.activity), fontWeight = Bold)
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -241,23 +282,48 @@ fun Indicator(activeDays: Int) {
         modifier = Modifier.fillMaxWidth()
     ) {
         CustomComponent(
-            smallText = "Teaching",
-            indicatorValue = activeDays,
-            maxIndicatorValue = 30,
-            bigTextSuffix = "Poor"
+            smallText = "External",
+            indicatorValue = external,
+            maxIndicatorValue = 10,
+            bigTextSuffix = when {
+                external < 4 -> "Poor"
+                external < 8 -> "Good"
+                else -> "Excellent"
+            },
+            foregroundIndicatorColor = when {
+                external > 3 -> MaterialTheme.colorScheme.primary
+                else -> MaterialTheme.colorScheme.error
+            }
         )
-        CustomComponent(smallText = "Internal", indicatorValue = 85, bigTextSuffix = "Excellent")
+        CustomComponent(
+            smallText = "Internal",
+            maxIndicatorValue = 10,
+            indicatorValue = internal,
+            bigTextSuffix = when {
+                internal < 4 -> "Poor"
+                internal < 8 -> "Good"
+                else -> "Excellent"
+            },
+            foregroundIndicatorColor = when {
+                internal > 3 -> MaterialTheme.colorScheme.primary
+                else -> MaterialTheme.colorScheme.error
+            }
+        )
     }
 }
 
 @Composable
 fun AllReview(data: List<Review>) {
-    LazyColumn(modifier = Modifier
-        .fillMaxWidth()
-        .height(500.dp)) {
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(500.dp)
+    ) {
         items(data) {
-            ReviewCard(it)
-            Spacer(modifier = Modifier.height(12.dp))
+            if (it.reviewText.isNotEmpty()) {
+                ReviewCard(it)
+                Spacer(modifier = Modifier.height(12.dp))
+            }
         }
     }
 
@@ -270,7 +336,7 @@ fun ReviewCard(review: Review) {
         .padding(horizontal = 12.dp)
     Card {
         Spacer(modifier = modifier.height(12.dp))
-        PersonDetails(modifier, review.userId, review.bookId, R.drawable.avatar)
+        PersonDetails(modifier, review.userId, review.date.take(10), R.drawable.avatar)
         Spacer(modifier = modifier.height(12.dp))
         Text(
             text = review.reviewText,

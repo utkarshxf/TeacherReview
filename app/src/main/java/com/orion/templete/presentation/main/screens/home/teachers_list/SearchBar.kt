@@ -1,6 +1,7 @@
 package com.orion.templete.presentation.main.screens.home.teachers_list
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -40,7 +41,7 @@ fun MySearchBar(navigateToSelectedBlog: (TeacherDTO) -> Unit, viewModel: Teacher
     val data = viewModel.SearchedteacherList.value
 
     SearchBar(
-        modifier = Modifier
+        modifier = Modifier.fillMaxWidth()
             .padding(vertical = 6.dp)
             .padding(horizontal = 12.dp),
         query = text,

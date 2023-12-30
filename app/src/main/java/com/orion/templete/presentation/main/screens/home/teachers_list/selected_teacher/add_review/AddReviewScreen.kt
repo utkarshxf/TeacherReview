@@ -83,7 +83,7 @@ fun ReviewSection(bookData: TeacherDTO?, bookViewModel: TeachersListScreenViewMo
     var internalMarksRate by remember { mutableStateOf(0) }
     var externalMarksRate by remember { mutableStateOf(0) }
     val res = bookViewModel.TeacherList.value
-    val TempReview = Review(bookId = "658bb1bde1383f60861a4daa", reviewStar = teachingRate, teachingStyle = teachingRate , internalMarks = internalMarksRate , externalMark = externalMarksRate , reviewText = text, userId = "null", verified = false , date = Date().toString())
+    val TempReview = Review(teachingStyle = teachingRate , internalMarks = internalMarksRate , externalMark = externalMarksRate , reviewText = text, userId = "null", verified = false , date = Date().toString() , showText = false , anonymous = false)
     Text(text = "Teaching Style", fontWeight = FontWeight.Bold)
     Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxWidth()) {
         Row(

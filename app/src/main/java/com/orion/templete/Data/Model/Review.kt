@@ -7,13 +7,13 @@ import java.util.Date
 
 @Parcelize
 data class Review(
-    val bookId: String,
     val date: String,
     val externalMark: Int,
     val internalMarks: Int,
-    val reviewStar: Int,
     val reviewText: String,
     val teachingStyle: Int,
     val userId: String,
-    val verified: Boolean
+    val verified: Boolean,
+    val showText:Boolean,
+    val anonymous:Boolean
 ): Parcelable

@@ -40,24 +40,31 @@ fun MySearchBar(navigateToSelectedBlog: (TeacherDTO) -> Unit, viewModel: Teacher
     }
     val data = viewModel.SearchedteacherList.value
 
+    fun capitalizeText(input: String): String {
+        return input.split(' ').joinToString(" ") { it.lowercase().replaceFirstChar { char -> char.titlecase() } }
+    }
+
     SearchBar(
         modifier = Modifier.fillMaxWidth()
             .padding(vertical = 6.dp)
             .padding(horizontal = 12.dp),
         query = text,
         onQueryChange = {
-            text = it
+            val filteredText = it.filter { char -> char.isLetterOrDigit() || char.isWhitespace() }
+            text = capitalizeText(filteredText)
             items.clear()
-            viewModel.getTeacherByName(name = it)
+            viewModel.getTeacherByName(name = filteredText)
         },
         onSearch = {
-            items.add(text)
+            val filteredText = text.filter { char -> char.isLetterOrDigit() || char.isWhitespace() }
+            items.add(filteredText)
             active = false
             text = ""
         },
         active = active,
         onActiveChange = {
-            viewModel.getTeacherByName(name = text)
+            val filteredText = text.filter { char -> char.isLetterOrDigit() || char.isWhitespace() }
+            viewModel.getTeacherByName(name = filteredText)
             active = it
         },
         placeholder = { Text(text = "Search") },

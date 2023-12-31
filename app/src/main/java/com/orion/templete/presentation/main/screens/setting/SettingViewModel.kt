@@ -25,12 +25,13 @@ class SettingViewModel @Inject constructor(
             context.getSystemService(LocaleManager::class.java)
                 .applicationLocales = LocaleList.forLanguageTags(localString)
         } else {
-            // For older versions, use the deprecated method updateConfiguration
             val resources = context.resources
             val configuration = resources.configuration
             val newLocale = Locale.forLanguageTag(localString)
             configuration.setLocale(newLocale)
-            resources.updateConfiguration(configuration, resources.displayMetrics)
+
+            val newContext = context.createConfigurationContext(configuration)
+            val newResources = newContext.resources
         }
     }
 }

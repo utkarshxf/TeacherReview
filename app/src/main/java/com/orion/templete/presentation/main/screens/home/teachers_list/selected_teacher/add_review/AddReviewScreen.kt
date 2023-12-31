@@ -166,7 +166,7 @@ fun ReviewSection(bookData: TeacherDTO?, bookViewModel: TeachersListScreenViewMo
         Button(onClick = {
             bookData?.review = bookData?.review.orEmpty() + TempReview
             if (bookData != null) {
-                bookViewModel.updateBooks("658bb1bde1383f60861a4daa", bookData)
+                bookViewModel.updateBooks(bookData._id, bookData)
             }
             Log.v("qwerty",res.toString())
             res.data.let {

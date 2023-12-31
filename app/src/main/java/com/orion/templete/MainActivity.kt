@@ -40,7 +40,7 @@ class MainActivity : ComponentActivity() {
                     val navController = rememberNavController()
                     NavHost(
                         navController = navController,
-                        startDestination = Screen.MainScreen
+                        startDestination = Screen.LoginScreen
                             .route
                     ) {
                         composable(route = Screen.SplashScreen.route) {

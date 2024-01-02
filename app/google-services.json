@@ -7,12 +7,17 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:239914664868:android:1ad64f65850437ab777731",
+        "mobilesdk_app_id": "1:239914664868:android:4b992948e9fdc671777731",
         "android_client_info": {
-          "package_name": "com.orion.templete"
+          "package_name": "com.orion.admin_app"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "239914664868-i2jmoqac6e3am96gk6ms20rk3cs3q91k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBrCrD2yPxRgcmjoFQmpgJXfv1yFFM8jbw"
@@ -20,7 +25,41 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "239914664868-i2jmoqac6e3am96gk6ms20rk3cs3q91k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:239914664868:android:1ad64f65850437ab777731",
+        "android_client_info": {
+          "package_name": "com.orion.templete"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "239914664868-i2jmoqac6e3am96gk6ms20rk3cs3q91k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBrCrD2yPxRgcmjoFQmpgJXfv1yFFM8jbw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "239914664868-i2jmoqac6e3am96gk6ms20rk3cs3q91k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

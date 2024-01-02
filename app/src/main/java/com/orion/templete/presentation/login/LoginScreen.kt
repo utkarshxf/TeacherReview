@@ -165,7 +165,7 @@ fun login(showSheet: MutableState<Boolean>, navController: NavController) {
         )
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(text = "Don't have an account ?", color = Color.White)
-            TextButton(onClick = { /*TODO*/ }) {
+            TextButton(onClick = { navController.navigate(Screen.SignUpScreen.route) }) {
                 Text(text = "Sign UP")
             }
         }

@@ -15,6 +15,7 @@ import androidx.navigation.compose.rememberNavController
 import com.orion.templete.Data.Model.TeacherDTO
 import com.orion.templete.Domain.use_case.Screen
 import com.orion.templete.presentation.login.LoginScreen
+import com.orion.templete.presentation.login.SignupScreen
 import com.orion.templete.presentation.main.MainScreen
 import com.orion.templete.presentation.main.screens.course_selection.YearPage
 import com.orion.templete.presentation.main.screens.course_selection.selectionCourse
@@ -48,6 +49,9 @@ class MainActivity : ComponentActivity() {
                         }
                         composable(route = Screen.LoginScreen.route) {
                             LoginScreen(navController = navController)
+                        }
+                        composable(route = Screen.SignUpScreen.route) {
+                            SignupScreen(navController = navController)
                         }
                         composable(route = Screen.year.route) {
                             YearPage(navController = navController)

@@ -1,6 +1,9 @@
 package com.orion.templete.Domain.Di
 
 import android.content.Context
+import com.google.firebase.auth.FirebaseAuth
+import com.orion.templete.Data.Repository.AuthRepositoryImpl
+import com.orion.templete.Domain.Repository.AuthRepository
 import com.orion.templete.util.DataStoreUtil
 import dagger.Module
 import dagger.Provides
@@ -20,4 +23,16 @@ class AppModule {
     @Provides
     fun provideDataStoreUtil(@ApplicationContext context: Context): DataStoreUtil =
         DataStoreUtil(context)
+
+    @InstallIn(SingletonComponent::class)
+    @Module
+    object AppModule {
+
+        @Provides
+        fun provideFirebaseAuth(): FirebaseAuth = FirebaseAuth.getInstance()
+
+        @Provides
+        fun providesAuthRepository(impl: AuthRepositoryImpl): AuthRepository = impl
+
+    }
 }

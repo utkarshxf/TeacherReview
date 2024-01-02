@@ -232,7 +232,7 @@ fun TextInput(
 private fun Context.doLogin(email: String, password: String, navController: NavController) {
     Toast.makeText(this, email + password, Toast.LENGTH_LONG).show()
 
-//    what u wannt to do
+
     when {
         email.isEmpty() -> {
             Toast.makeText(applicationContext, "user name is empty", Toast.LENGTH_SHORT).show()
